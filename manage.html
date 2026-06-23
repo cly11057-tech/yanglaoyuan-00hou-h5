@@ -358,7 +358,10 @@
       <section id="view-tasks" class="view hidden space-y-5">
         <div class="bg-white rounded-lg border border-line shadow-soft p-4 mobile-card">
           <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between mb-4">
-            <h2 class="font-bold text-lg">拍摄任务</h2>
+            <div>
+              <h2 class="font-bold text-lg">拍摄任务</h2>
+              <p class="text-sm text-slate-500 mt-1">先建任务卡片，再推进到待剪、待发、已发。</p>
+            </div>
             <div class="flex flex-wrap gap-2">
               <button class="statusQuick h-9 px-3 rounded-md border border-line bg-white hover:bg-slate-50 text-sm" data-status="待拍">待拍</button>
               <button class="statusQuick h-9 px-3 rounded-md border border-line bg-white hover:bg-slate-50 text-sm" data-status="待剪">待剪</button>
@@ -366,7 +369,42 @@
               <button class="statusQuick h-9 px-3 rounded-md border border-line bg-white hover:bg-slate-50 text-sm" data-status="已发">已发</button>
             </div>
           </div>
-          <div id="taskBoard" class="grid grid-cols-1 lg:grid-cols-4 gap-4"></div>
+          <form id="quickTaskForm" class="border border-line rounded-lg bg-mist p-3 sm:p-4 mb-4">
+            <div class="flex items-center justify-between gap-3 mb-3">
+              <h3 class="font-bold">新增任务卡片</h3>
+              <span class="text-xs px-2 py-1 rounded bg-white border border-line text-slate-600">填标题即可</span>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-[1.4fr_120px_120px_120px_140px_auto] gap-2">
+              <input id="quickTaskTitle" class="h-10 rounded-md border border-line px-3 bg-white focus:outline-none focus:ring-2 focus:ring-jade" placeholder="任务标题，例如：把这个舞蹈改成养老院00后版" required />
+              <input id="quickTaskOwner" class="h-10 rounded-md border border-line px-3 bg-white focus:outline-none focus:ring-2 focus:ring-jade" placeholder="负责人" />
+              <select id="quickTaskType" class="h-10 rounded-md border border-line px-3 bg-white focus:outline-none focus:ring-2 focus:ring-jade">
+                <option>跳舞</option>
+                <option>卡点</option>
+                <option>变装</option>
+                <option>热梗台词</option>
+                <option>反应视频</option>
+                <option>Vlog快剪</option>
+              </select>
+              <select id="quickTaskScene" class="h-10 rounded-md border border-line px-3 bg-white focus:outline-none focus:ring-2 focus:ring-jade">
+                <option>活动室</option>
+                <option>门口</option>
+                <option>走廊</option>
+                <option>餐厅</option>
+                <option>院内户外</option>
+                <option>办公室</option>
+              </select>
+              <select id="quickTaskElderlyMode" class="h-10 rounded-md border border-line px-3 bg-white focus:outline-none focus:ring-2 focus:ring-jade">
+                <option>压轴出场</option>
+                <option>围观鼓掌</option>
+                <option>一句金句</option>
+                <option>不出镜</option>
+              </select>
+              <button class="h-10 px-4 rounded-md bg-ink text-white font-semibold" type="submit">
+                <i class="fa fa-plus mr-1" aria-hidden="true"></i>生成卡片
+              </button>
+            </div>
+          </form>
+          <div id="taskBoard" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3"></div>
         </div>
       </section>
 
@@ -1046,7 +1084,7 @@
       const tasks = state.tasks.length ? state.tasks : [];
       select.innerHTML = tasks.length
         ? tasks.map(task => `<option value="${task.id}">${escapeHtml(task.status)}｜${escapeHtml(task.title)}</option>`).join("")
-        : `<option value="">暂无任务，请先从选题池生成任务</option>`;
+        : `<option value="">暂无任务，请先在拍摄任务页新增任务卡片</option>`;
       if (pendingCommandTaskId && state.tasks.some(task => task.id === pendingCommandTaskId)) {
         select.value = pendingCommandTaskId;
         pendingCommandTaskId = null;
@@ -1124,7 +1162,7 @@
 
       const panel = document.getElementById("checklistPanel");
       if (!selected) {
-        panel.innerHTML = emptyState("先在选题池生成一个拍摄任务。");
+        panel.innerHTML = emptyState("先在拍摄任务页新增一个任务卡片。");
         return;
       }
       selected.checks = selected.checks || {};
@@ -1391,6 +1429,39 @@
       toast("已生成拍摄任务");
       activeTab = "tasks";
       render();
+    }
+
+    function createTaskCardFromForm() {
+      const title = document.getElementById("quickTaskTitle").value.trim();
+      if (!title) return toast("先填写任务标题");
+      const type = document.getElementById("quickTaskType").value;
+      const scene = document.getElementById("quickTaskScene").value;
+      const elderlyMode = document.getElementById("quickTaskElderlyMode").value;
+      const owner = document.getElementById("quickTaskOwner").value.trim();
+      const tempTopic = { title, type, scene, elderlyMode };
+      const task = {
+        id: uid("task"),
+        topicId: "",
+        createdAt: new Date().toISOString(),
+        title,
+        type,
+        owner,
+        scene,
+        elderlyMode,
+        hook: buildHook(tempTopic),
+        cover: buildCover(tempTopic),
+        status: "待拍",
+        checks: {}
+      };
+      state.tasks.unshift(task);
+      selectedTaskId = task.id;
+      saveState();
+      document.getElementById("quickTaskForm").reset();
+      document.getElementById("quickTaskType").value = type;
+      document.getElementById("quickTaskScene").value = scene;
+      document.getElementById("quickTaskElderlyMode").value = elderlyMode;
+      render();
+      toast("任务卡片已生成");
     }
 
     function buildHook(topic) {
@@ -1947,6 +2018,11 @@
       if (!items.length) return toast("请至少填写一条口径");
       addGuidelineCard(title, icon, items);
       event.target.reset();
+    });
+
+    document.getElementById("quickTaskForm").addEventListener("submit", event => {
+      event.preventDefault();
+      createTaskCardFromForm();
     });
 
     document.getElementById("topicFilterType").addEventListener("change", renderTopics);
