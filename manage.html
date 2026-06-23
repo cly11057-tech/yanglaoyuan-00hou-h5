@@ -46,8 +46,9 @@
       color: #fff !important;
       border-color: #17212b !important;
     }
-    .tab-btn { -webkit-tap-highlight-color: transparent; }
-    .tab-btn:active, .tab-btn:focus { background: #17212b; color: #fff; border-color: #17212b; }
+    button, label, input, select, textarea { touch-action: manipulation; }
+    button, .tab-btn, .mobile-tab-btn { -webkit-tap-highlight-color: transparent; }
+    .tab-btn:active, .tab-btn:focus, .mobile-tab-btn:active, .mobile-tab-btn:focus { background: #17212b; color: #fff; border-color: #17212b; }
     .status-dot { width: 8px; height: 8px; border-radius: 999px; display: inline-block; }
     .scrollbar-thin::-webkit-scrollbar { width: 6px; height: 6px; }
     .scrollbar-thin::-webkit-scrollbar-thumb { background: #c8d1dc; border-radius: 999px; }
@@ -58,10 +59,14 @@
     .glass-nav { backdrop-filter: saturate(160%) blur(12px); background: rgba(255,255,255,.86); }
     @media (max-width: 640px) {
       body { background: #f6f8fb; }
-      input, select, textarea { min-height: 44px; }
+      button, input, select, textarea, label[role="button"] { min-height: 44px; }
+      button { line-height: 1.2; }
       .mobile-hide-label .btn-label { display: none; }
       .mobile-card { border-radius: 10px; box-shadow: none; }
-      .mobile-bottom-space { padding-bottom: calc(92px + env(safe-area-inset-bottom)); }
+      .mobile-bottom-space { padding-bottom: calc(118px + env(safe-area-inset-bottom)); }
+      .mobile-no-float { display: none !important; }
+      .mobile-stack-actions > button { flex: 1 1 calc(50% - 4px); }
+      .mobile-full-btn { width: 100%; }
     }
     @media (min-width: 641px) {
       input, select, textarea, button { font-size: 14px; }
@@ -363,10 +368,11 @@
               <p class="text-sm text-slate-500 mt-1">先建任务卡片，再推进到待剪、待发、已发。</p>
             </div>
             <div class="flex flex-wrap gap-2">
-              <button class="statusQuick h-9 px-3 rounded-md border border-line bg-white hover:bg-slate-50 text-sm" data-status="待拍">待拍</button>
-              <button class="statusQuick h-9 px-3 rounded-md border border-line bg-white hover:bg-slate-50 text-sm" data-status="待剪">待剪</button>
-              <button class="statusQuick h-9 px-3 rounded-md border border-line bg-white hover:bg-slate-50 text-sm" data-status="待发">待发</button>
-              <button class="statusQuick h-9 px-3 rounded-md border border-line bg-white hover:bg-slate-50 text-sm" data-status="已发">已发</button>
+              <button class="statusQuick h-10 px-3 rounded-md border border-line bg-white hover:bg-slate-50 text-sm" data-status="全部">全部</button>
+              <button class="statusQuick h-10 px-3 rounded-md border border-line bg-white hover:bg-slate-50 text-sm" data-status="待拍">待拍</button>
+              <button class="statusQuick h-10 px-3 rounded-md border border-line bg-white hover:bg-slate-50 text-sm" data-status="待剪">待剪</button>
+              <button class="statusQuick h-10 px-3 rounded-md border border-line bg-white hover:bg-slate-50 text-sm" data-status="待发">待发</button>
+              <button class="statusQuick h-10 px-3 rounded-md border border-line bg-white hover:bg-slate-50 text-sm" data-status="已发">已发</button>
             </div>
           </div>
           <form id="quickTaskForm" class="border border-line rounded-lg bg-mist p-3 sm:p-4 mb-4">
@@ -520,7 +526,7 @@
     </main>
   </div>
 
-  <button id="mobileQuickAdd" class="sm:hidden fixed right-4 bottom-[86px] z-40 w-14 h-14 rounded-full bg-coral text-white shadow-soft flex items-center justify-center" aria-label="快速录入热点">
+  <button id="mobileQuickAdd" class="mobile-no-float sm:hidden fixed right-4 bottom-[86px] z-40 w-14 h-14 rounded-full bg-coral text-white shadow-soft flex items-center justify-center" aria-label="快速录入热点">
     <i class="fa fa-plus text-lg" aria-hidden="true"></i>
   </button>
   <nav id="mobileBottomNav" class="sm:hidden fixed left-0 right-0 bottom-0 z-40 bg-white border-t border-line px-2 pt-2 pb-[calc(8px+env(safe-area-inset-bottom))]"></nav>
@@ -627,6 +633,7 @@
     let activeTab = "dashboard";
     let selectedTaskId = null;
     let pendingCommandTaskId = null;
+    let taskStatusFilter = "全部";
 
     function loadState() {
       try {
@@ -710,7 +717,11 @@
     }
 
     function saveState() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch (error) {
+        toast("当前浏览器暂时无法保存本机数据");
+      }
     }
 
     function uid(prefix) {
@@ -1107,7 +1118,12 @@
 
     function renderTasks() {
       const board = document.getElementById("taskBoard");
-      const statuses = ["待拍", "待剪", "待发", "已发"];
+      const allStatuses = ["待拍", "待剪", "待发", "已发"];
+      const statuses = taskStatusFilter === "全部" ? allStatuses : [taskStatusFilter];
+      document.querySelectorAll(".statusQuick").forEach(button => {
+        const active = button.dataset.status === taskStatusFilter;
+        button.classList.toggle("tab-active", active);
+      });
       board.innerHTML = statuses.map(status => {
         const tasks = state.tasks.filter(task => task.status === status);
         return `
@@ -1137,11 +1153,11 @@
             <div>场景：${escapeHtml(task.scene)}</div>
             <div>封面：${escapeHtml(task.cover)}</div>
           </div>
-          <div class="mt-3 flex flex-wrap gap-2">
-            ${isTeamMode() ? "" : `<button class="h-8 px-3 rounded-md bg-coral text-white text-sm" onclick="openCommandForTask('${task.id}')">派发</button>`}
-            <button class="h-8 px-3 rounded-md border border-line text-sm" onclick="advanceTask('${task.id}')">推进</button>
-            <button class="h-8 px-3 rounded-md border border-line text-sm" onclick="selectChecklist('${task.id}')">检查</button>
-            <button class="h-8 px-3 rounded-md border border-line text-sm" onclick="deleteTask('${task.id}')">删除</button>
+          <div class="mt-3 flex flex-wrap gap-2 mobile-stack-actions">
+            ${isTeamMode() ? "" : `<button class="h-10 px-3 rounded-md bg-coral text-white text-sm font-semibold" onclick="openCommandForTask('${task.id}')">派发</button>`}
+            <button class="h-10 px-3 rounded-md bg-ink text-white text-sm font-semibold" onclick="advanceTask('${task.id}')">推进</button>
+            <button class="h-10 px-3 rounded-md border border-line bg-white text-sm font-semibold" onclick="selectChecklist('${task.id}')">检查</button>
+            <button class="h-10 px-3 rounded-md border border-line bg-white text-sm font-semibold" onclick="deleteTask('${task.id}')">删除</button>
           </div>
         </article>
       `;
@@ -1455,6 +1471,7 @@
       };
       state.tasks.unshift(task);
       selectedTaskId = task.id;
+      taskStatusFilter = "待拍";
       saveState();
       document.getElementById("quickTaskForm").reset();
       document.getElementById("quickTaskType").value = type;
@@ -1744,6 +1761,7 @@
       if (!task) return;
       const index = order.indexOf(task.status);
       task.status = order[Math.min(order.length - 1, index + 1)];
+      taskStatusFilter = task.status;
       saveState();
       render();
       toast(`已推进到：${task.status}`);
@@ -2107,7 +2125,11 @@
     });
 
     document.querySelectorAll(".statusQuick").forEach(button => {
-      button.addEventListener("click", () => toast(`可在任务卡片中推进到${button.dataset.status}`));
+      button.addEventListener("click", () => {
+        taskStatusFilter = button.dataset.status;
+        renderTasks();
+        toast(taskStatusFilter === "全部" ? "已显示全部任务" : `已筛选：${taskStatusFilter}`);
+      });
     });
 
     document.getElementById("mobileQuickAdd").addEventListener("click", () => {
