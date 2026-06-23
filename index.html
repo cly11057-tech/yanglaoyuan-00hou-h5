@@ -1,0 +1,2102 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#17212b" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="新媒体作战台" />
+  <link rel="icon" href="assets/account-avatar.jpg" />
+  <link rel="apple-touch-icon" href="assets/account-avatar.jpg" />
+  <title>养老院有群00后｜新媒体作战台</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ink: "#17212b",
+            line: "#d8dee8",
+            mist: "#f6f8fb",
+            coral: "#ef6f61",
+            jade: "#1f9d8a",
+            sun: "#f2b84b",
+            sky: "#7fc7e8",
+            cream: "#fff7e8",
+            peach: "#ffe2c2"
+          },
+          boxShadow: {
+            soft: "0 12px 30px rgba(23,33,43,.08)"
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      font-family: Arial, "Microsoft YaHei", sans-serif;
+      color: #17212b;
+      background: linear-gradient(180deg, #fff7e8 0, #f6f8fb 260px, #f6f8fb 100%);
+    }
+    input, select, textarea, button { font-size: 16px; }
+    .tab-active {
+      background: #17212b !important;
+      color: #fff !important;
+      border-color: #17212b !important;
+    }
+    .tab-btn { -webkit-tap-highlight-color: transparent; }
+    .tab-btn:active, .tab-btn:focus { background: #17212b; color: #fff; border-color: #17212b; }
+    .status-dot { width: 8px; height: 8px; border-radius: 999px; display: inline-block; }
+    .scrollbar-thin::-webkit-scrollbar { width: 6px; height: 6px; }
+    .scrollbar-thin::-webkit-scrollbar-thumb { background: #c8d1dc; border-radius: 999px; }
+    .safe-area { padding-bottom: env(safe-area-inset-bottom); }
+    .bottom-nav-active { color: #17212b; font-weight: 700; }
+    .brand-panel { background: linear-gradient(135deg, #fff7e8 0%, #ffffff 48%, #eaf7fc 100%); }
+    .avatar-ring { box-shadow: 0 0 0 4px #fff, 0 10px 24px rgba(239,111,97,.20); }
+    .glass-nav { backdrop-filter: saturate(160%) blur(12px); background: rgba(255,255,255,.86); }
+    @media (max-width: 640px) {
+      body { background: #f6f8fb; }
+      input, select, textarea { min-height: 44px; }
+      .mobile-hide-label .btn-label { display: none; }
+      .mobile-card { border-radius: 10px; box-shadow: none; }
+      .mobile-bottom-space { padding-bottom: calc(92px + env(safe-area-inset-bottom)); }
+    }
+    @media (min-width: 641px) {
+      input, select, textarea, button { font-size: 14px; }
+    }
+  </style>
+</head>
+<body class="bg-mist min-h-screen">
+  <div class="hidden bg-coral bg-sun bg-jade bg-ink bg-sky bg-cream bg-peach text-coral text-sun text-jade text-ink text-sky border-ink border-coral"></div>
+  <div class="min-h-screen">
+    <header class="glass-nav border-b border-line sticky top-0 z-30">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3">
+        <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+          <div class="flex items-center gap-3">
+            <img src="assets/account-avatar.jpg" alt="养老院00后头像" class="w-12 h-12 rounded-xl object-cover avatar-ring shrink-0" />
+            <div>
+              <h1 id="appTitle" class="text-lg sm:text-xl font-bold leading-tight">养老院有群00后｜新媒体作战台</h1>
+              <p id="appSubtitle" class="text-xs sm:text-sm text-slate-500">热点发现 · 任务协作 · 数据复盘</p>
+            </div>
+          </div>
+          <div class="flex flex-wrap items-center gap-2 mobile-hide-label">
+            <button id="copyDailyFlowBtn" class="h-9 px-3 rounded-md border border-line bg-white hover:bg-slate-50 text-sm">
+              <i class="fa fa-clipboard mr-1" aria-hidden="true"></i><span class="btn-label">复制流程</span>
+            </button>
+            <button id="exportJsonBtn" class="h-9 px-3 rounded-md border border-line bg-white hover:bg-slate-50 text-sm">
+              <i class="fa fa-download mr-1" aria-hidden="true"></i><span class="btn-label">导出数据</span>
+            </button>
+            <label id="importJsonLabel" class="h-9 px-3 rounded-md border border-line bg-white hover:bg-slate-50 text-sm inline-flex items-center cursor-pointer">
+              <i class="fa fa-upload mr-1" aria-hidden="true"></i><span class="btn-label">导入数据</span>
+              <input id="importJsonInput" type="file" accept="application/json" class="hidden" />
+            </label>
+            <button id="seedBtn" class="h-9 px-3 rounded-md bg-coral text-white hover:opacity-90 text-sm">
+              <i class="fa fa-magic mr-1" aria-hidden="true"></i><span class="btn-label">导入示例</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-3 sm:px-6 py-4 sm:py-5 safe-area mobile-bottom-space">
+      <nav class="hidden sm:block mb-5 overflow-x-auto scrollbar-thin">
+        <div id="tabs" class="flex gap-2 min-w-max"></div>
+      </nav>
+
+      <section id="view-dashboard" class="view space-y-5"></section>
+
+      <section id="view-topics" class="view hidden space-y-5">
+        <div class="grid grid-cols-1 xl:grid-cols-[420px_1fr] gap-4 sm:gap-5">
+          <div class="bg-white rounded-lg border border-line shadow-soft p-4 mobile-card">
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="font-bold text-lg">录入热点</h2>
+              <span class="text-xs px-2 py-1 rounded bg-slate-100 text-slate-600">自动评分</span>
+            </div>
+            <form id="topicForm" class="space-y-4">
+              <div>
+                <label class="block text-sm font-semibold mb-1" for="topicTitle">热点/选题标题</label>
+                <input id="topicTitle" class="w-full h-10 rounded-md border border-line px-3 focus:outline-none focus:ring-2 focus:ring-jade" placeholder="例如：真正的大佬最后登场" required />
+              </div>
+              <div>
+                <label class="block text-sm font-semibold mb-1" for="topicSource">来源链接或备注</label>
+                <input id="topicSource" class="w-full h-10 rounded-md border border-line px-3 focus:outline-none focus:ring-2 focus:ring-jade" placeholder="抖音链接、账号名、群内截图编号" />
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-sm font-semibold mb-1" for="topicType">模板类型</label>
+                  <select id="topicType" class="w-full h-10 rounded-md border border-line px-3 bg-white focus:outline-none focus:ring-2 focus:ring-jade">
+                    <option>变装</option>
+                    <option>卡点</option>
+                    <option>跳舞</option>
+                    <option>热梗台词</option>
+                    <option>反应视频</option>
+                    <option>Vlog快剪</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-sm font-semibold mb-1" for="topicOwner">负责人</label>
+                  <input id="topicOwner" class="w-full h-10 rounded-md border border-line px-3 focus:outline-none focus:ring-2 focus:ring-jade" placeholder="姓名" />
+                </div>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-sm font-semibold mb-1" for="topicScene">拍摄场景</label>
+                  <select id="topicScene" class="w-full h-10 rounded-md border border-line px-3 bg-white focus:outline-none focus:ring-2 focus:ring-jade">
+                    <option>活动室</option>
+                    <option>走廊</option>
+                    <option>门口</option>
+                    <option>餐厅</option>
+                    <option>办公室</option>
+                    <option>院内户外</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-sm font-semibold mb-1" for="elderlyMode">老人参与</label>
+                  <select id="elderlyMode" class="w-full h-10 rounded-md border border-line px-3 bg-white focus:outline-none focus:ring-2 focus:ring-jade">
+                    <option>压轴出场</option>
+                    <option>围观鼓掌</option>
+                    <option>一句金句</option>
+                    <option>简单摆手</option>
+                    <option>不出镜</option>
+                  </select>
+                </div>
+              </div>
+              <div>
+                <label class="block text-sm font-semibold mb-2">适配判断</label>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
+                  <label class="flex items-center gap-2 p-2 rounded-md border border-line">
+                    <input type="checkbox" class="score-check" value="quick" checked />3秒能看懂
+                  </label>
+                  <label class="flex items-center gap-2 p-2 rounded-md border border-line">
+                    <input type="checkbox" class="score-check" value="multi" checked />适合多人卡点
+                  </label>
+                  <label class="flex items-center gap-2 p-2 rounded-md border border-line">
+                    <input type="checkbox" class="score-check" value="scene" checked />能换养老院场景
+                  </label>
+                  <label class="flex items-center gap-2 p-2 rounded-md border border-line">
+                    <input type="checkbox" class="score-check" value="safe" checked />老人可安全参与
+                  </label>
+                  <label class="flex items-center gap-2 p-2 rounded-md border border-line sm:col-span-2">
+                    <input type="checkbox" class="score-check" value="contrast" checked />结尾有反差笑点
+                  </label>
+                </div>
+              </div>
+              <div>
+                <label class="block text-sm font-semibold mb-1" for="riskLevel">安全风险</label>
+                <select id="riskLevel" class="w-full h-10 rounded-md border border-line px-3 bg-white focus:outline-none focus:ring-2 focus:ring-jade">
+                  <option>低</option>
+                  <option>中</option>
+                  <option>高</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-sm font-semibold mb-1" for="topicNotes">拍摄备注</label>
+                <textarea id="topicNotes" class="w-full min-h-20 rounded-md border border-line px-3 py-2 focus:outline-none focus:ring-2 focus:ring-jade" placeholder="需要的动作、道具、音乐、注意事项"></textarea>
+              </div>
+              <button class="w-full h-11 rounded-md bg-ink text-white hover:opacity-90 font-semibold" type="submit">
+                <i class="fa fa-plus mr-1" aria-hidden="true"></i>加入选题池
+              </button>
+            </form>
+          </div>
+
+          <div class="bg-white rounded-lg border border-line shadow-soft p-4 min-w-0 mobile-card">
+            <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between mb-4">
+              <h2 class="font-bold text-lg">选题池</h2>
+              <div class="flex flex-wrap gap-2">
+                <select id="topicFilterType" class="h-9 rounded-md border border-line px-3 bg-white text-sm">
+                  <option value="">全部类型</option>
+                  <option>变装</option>
+                  <option>卡点</option>
+                  <option>跳舞</option>
+                  <option>热梗台词</option>
+                  <option>反应视频</option>
+                  <option>Vlog快剪</option>
+                </select>
+                <select id="topicFilterPriority" class="h-9 rounded-md border border-line px-3 bg-white text-sm">
+                  <option value="">全部优先级</option>
+                  <option>S</option>
+                  <option>A</option>
+                  <option>B</option>
+                </select>
+                <button id="exportTopicsCsvBtn" class="h-9 px-3 rounded-md border border-line bg-white hover:bg-slate-50 text-sm">
+                  <i class="fa fa-table mr-1" aria-hidden="true"></i>导出CSV
+                </button>
+              </div>
+            </div>
+            <div id="topicList" class="space-y-3"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-analyzer" class="view hidden space-y-5">
+        <div class="grid grid-cols-1 xl:grid-cols-[440px_1fr] gap-4 sm:gap-5">
+          <div class="bg-white rounded-lg border border-line shadow-soft p-4 mobile-card">
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="font-bold text-lg">抓取分析助手</h2>
+              <span class="text-xs px-2 py-1 rounded bg-slate-100 text-slate-600">合规半自动</span>
+            </div>
+            <div class="space-y-4">
+              <div class="border border-line rounded-lg p-3 bg-mist text-sm leading-6 text-slate-700">
+                把抖音搜索结果、同行视频标题、评论区高频问题、创作者中心数据复制到这里，系统会自动识别类型、风险、适配度和优先级。
+              </div>
+              <div>
+                <label class="block text-sm font-semibold mb-1" for="captureInput">粘贴原始内容</label>
+                <textarea id="captureInput" class="w-full min-h-56 rounded-md border border-line px-3 py-2 focus:outline-none focus:ring-2 focus:ring-jade" placeholder="例如：从抖音搜索页复制的视频标题、播放/点赞、账号名、发布时间，或评论区用户问题。"></textarea>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
+                <label class="flex items-center gap-2 p-2 rounded-md border border-line">
+                  <input id="onlyRelatedCheck" type="checkbox" checked />只保留养老/00后相关
+                </label>
+                <label class="flex items-center gap-2 p-2 rounded-md border border-line">
+                  <input id="dedupeCheck" type="checkbox" checked />自动去重
+                </label>
+              </div>
+              <div class="flex flex-wrap gap-2">
+                <button id="analyzeCaptureBtn" class="h-10 px-4 rounded-md bg-ink text-white hover:opacity-90 text-sm font-semibold">
+                  <i class="fa fa-search mr-1" aria-hidden="true"></i>开始分析
+                </button>
+                <button id="clearCaptureInputBtn" class="h-10 px-4 rounded-md border border-line bg-white hover:bg-slate-50 text-sm">
+                  <i class="fa fa-eraser mr-1" aria-hidden="true"></i>清空输入
+                </button>
+                <button id="exportCapturesCsvBtn" class="h-10 px-4 rounded-md border border-line bg-white hover:bg-slate-50 text-sm">
+                  <i class="fa fa-table mr-1" aria-hidden="true"></i>导出分析
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="bg-white rounded-lg border border-line shadow-soft p-4 min-w-0 mobile-card">
+            <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between mb-4">
+              <h2 class="font-bold text-lg">分析结果</h2>
+              <div class="flex flex-wrap gap-2">
+                <button id="addTopCapturesBtn" class="h-9 px-3 rounded-md bg-jade text-white hover:opacity-90 text-sm">
+                  <i class="fa fa-plus mr-1" aria-hidden="true"></i>高分入池
+                </button>
+                <button id="clearCapturesBtn" class="h-9 px-3 rounded-md border border-line bg-white hover:bg-slate-50 text-sm">
+                  <i class="fa fa-trash-o mr-1" aria-hidden="true"></i>清空结果
+                </button>
+              </div>
+            </div>
+            <div id="captureSummary" class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4"></div>
+            <div id="captureList" class="space-y-3"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-command" class="view hidden space-y-5">
+        <div class="grid grid-cols-1 xl:grid-cols-[420px_1fr] gap-4 sm:gap-5">
+          <div class="bg-white rounded-lg border border-line shadow-soft p-4 mobile-card">
+            <div class="flex items-center gap-3 mb-4">
+              <img src="assets/account-avatar.jpg" alt="账号头像" class="w-12 h-12 rounded-xl object-cover avatar-ring shrink-0" />
+              <div>
+                <h2 class="font-bold text-lg">任务调度台</h2>
+                <p class="text-sm text-slate-500">统一定方向、派任务、收数据。</p>
+              </div>
+            </div>
+            <form id="commandForm" class="space-y-4">
+              <div>
+                <label class="block text-sm font-semibold mb-1" for="commandTask">选择任务</label>
+                <select id="commandTask" class="w-full h-10 rounded-md border border-line px-3 bg-white focus:outline-none focus:ring-2 focus:ring-jade"></select>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                <label class="block text-sm font-semibold mb-1" for="commandType">任务类型</label>
+                  <select id="commandType" class="w-full h-10 rounded-md border border-line px-3 bg-white focus:outline-none focus:ring-2 focus:ring-jade">
+                    <option>拍摄任务</option>
+                    <option>剪辑任务</option>
+                    <option>发布任务</option>
+                    <option>数据回传</option>
+                    <option>热点追拍</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-sm font-semibold mb-1" for="commandDeadline">截止时间</label>
+                  <input id="commandDeadline" class="w-full h-10 rounded-md border border-line px-3 focus:outline-none focus:ring-2 focus:ring-jade" placeholder="例如：今天18:00前" />
+                </div>
+              </div>
+              <div>
+                <label class="block text-sm font-semibold mb-1" for="commandExtra">补充要求</label>
+                <textarea id="commandExtra" class="w-full min-h-20 rounded-md border border-line px-3 py-2 focus:outline-none focus:ring-2 focus:ring-jade" placeholder="例如：老人只做围观鼓掌，封面字用“大佬登场”，剪辑控制在25秒内。"></textarea>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <button class="h-11 rounded-md bg-ink text-white hover:opacity-90 font-semibold" type="submit">
+                  <i class="fa fa-bullhorn mr-1" aria-hidden="true"></i>生成群通知
+                </button>
+                <button id="saveCommandBtn" class="h-11 rounded-md border border-line bg-white hover:bg-slate-50 font-semibold" type="button">
+                  <i class="fa fa-save mr-1" aria-hidden="true"></i>保存记录
+                </button>
+              </div>
+            </form>
+          </div>
+          <div class="space-y-4">
+            <div class="bg-white rounded-lg border border-line shadow-soft p-4 min-w-0 mobile-card">
+              <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between mb-4">
+                <h2 class="font-bold text-lg">群通知文案</h2>
+                <div class="flex flex-wrap gap-2">
+                  <button id="copyCommandBtn" class="h-9 px-3 rounded-md bg-coral text-white hover:opacity-90 text-sm">
+                    <i class="fa fa-copy mr-1" aria-hidden="true"></i>复制通知
+                  </button>
+                  <button id="clearCommandBtn" class="h-9 px-3 rounded-md border border-line bg-white hover:bg-slate-50 text-sm">
+                    <i class="fa fa-eraser mr-1" aria-hidden="true"></i>清空
+                  </button>
+                </div>
+              </div>
+              <textarea id="commandOutput" class="w-full min-h-72 rounded-md border border-line px-3 py-3 bg-mist focus:outline-none focus:ring-2 focus:ring-jade text-sm leading-6" placeholder="生成后的群通知会出现在这里。"></textarea>
+            </div>
+            <div class="bg-white rounded-lg border border-line shadow-soft p-4 mobile-card">
+              <div class="flex items-center justify-between mb-3">
+                <h2 class="font-bold text-lg">通知记录</h2>
+                <button id="clearCommandHistoryBtn" class="h-8 px-3 rounded-md border border-line bg-white hover:bg-slate-50 text-sm">清空记录</button>
+              </div>
+              <div id="commandHistory" class="space-y-3"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-tasks" class="view hidden space-y-5">
+        <div class="bg-white rounded-lg border border-line shadow-soft p-4 mobile-card">
+          <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between mb-4">
+            <h2 class="font-bold text-lg">拍摄任务</h2>
+            <div class="flex flex-wrap gap-2">
+              <button class="statusQuick h-9 px-3 rounded-md border border-line bg-white hover:bg-slate-50 text-sm" data-status="待拍">待拍</button>
+              <button class="statusQuick h-9 px-3 rounded-md border border-line bg-white hover:bg-slate-50 text-sm" data-status="待剪">待剪</button>
+              <button class="statusQuick h-9 px-3 rounded-md border border-line bg-white hover:bg-slate-50 text-sm" data-status="待发">待发</button>
+              <button class="statusQuick h-9 px-3 rounded-md border border-line bg-white hover:bg-slate-50 text-sm" data-status="已发">已发</button>
+            </div>
+          </div>
+          <div id="taskBoard" class="grid grid-cols-1 lg:grid-cols-4 gap-4"></div>
+        </div>
+      </section>
+
+      <section id="view-checklist" class="view hidden space-y-5">
+        <div class="grid grid-cols-1 xl:grid-cols-[360px_1fr] gap-4 sm:gap-5">
+          <div class="bg-white rounded-lg border border-line shadow-soft p-4 mobile-card">
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="font-bold text-lg">选择任务</h2>
+              <span id="selectedTaskBadge" class="text-xs px-2 py-1 rounded bg-slate-100 text-slate-600">未选择</span>
+            </div>
+            <div id="checkTaskList" class="space-y-2 max-h-[680px] overflow-auto scrollbar-thin"></div>
+          </div>
+          <div class="bg-white rounded-lg border border-line shadow-soft p-4 mobile-card">
+            <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between mb-4">
+              <h2 class="font-bold text-lg">发布前检查</h2>
+              <button id="markReadyBtn" class="h-9 px-3 rounded-md bg-jade text-white hover:opacity-90 text-sm">
+                <i class="fa fa-check mr-1" aria-hidden="true"></i>标记为待发
+              </button>
+            </div>
+            <div id="checklistPanel"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-review" class="view hidden space-y-5">
+        <div class="grid grid-cols-1 xl:grid-cols-[420px_1fr] gap-4 sm:gap-5">
+          <div class="bg-white rounded-lg border border-line shadow-soft p-4 mobile-card">
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="font-bold text-lg">录入发布数据</h2>
+              <button id="exportReviewsCsvBtn" class="h-9 px-3 rounded-md border border-line bg-white hover:bg-slate-50 text-sm">
+                <i class="fa fa-table mr-1" aria-hidden="true"></i>导出CSV
+              </button>
+            </div>
+            <form id="reviewForm" class="space-y-4">
+              <div>
+                <label class="block text-sm font-semibold mb-1" for="reviewTask">选择已发任务</label>
+                <select id="reviewTask" class="w-full h-10 rounded-md border border-line px-3 bg-white focus:outline-none focus:ring-2 focus:ring-jade"></select>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-sm font-semibold mb-1" for="playCount">播放量</label>
+                  <input id="playCount" type="number" min="0" class="w-full h-10 rounded-md border border-line px-3 focus:outline-none focus:ring-2 focus:ring-jade" />
+                </div>
+                <div>
+                  <label class="block text-sm font-semibold mb-1" for="likeCount">点赞量</label>
+                  <input id="likeCount" type="number" min="0" class="w-full h-10 rounded-md border border-line px-3 focus:outline-none focus:ring-2 focus:ring-jade" />
+                </div>
+                <div>
+                  <label class="block text-sm font-semibold mb-1" for="commentCount">评论量</label>
+                  <input id="commentCount" type="number" min="0" class="w-full h-10 rounded-md border border-line px-3 focus:outline-none focus:ring-2 focus:ring-jade" />
+                </div>
+                <div>
+                  <label class="block text-sm font-semibold mb-1" for="shareCount">转发量</label>
+                  <input id="shareCount" type="number" min="0" class="w-full h-10 rounded-md border border-line px-3 focus:outline-none focus:ring-2 focus:ring-jade" />
+                </div>
+                <div>
+                  <label class="block text-sm font-semibold mb-1" for="followCount">涨粉量</label>
+                  <input id="followCount" type="number" min="0" class="w-full h-10 rounded-md border border-line px-3 focus:outline-none focus:ring-2 focus:ring-jade" />
+                </div>
+                <div>
+                  <label class="block text-sm font-semibold mb-1" for="publishTime">发布时间</label>
+                  <input id="publishTime" class="w-full h-10 rounded-md border border-line px-3 focus:outline-none focus:ring-2 focus:ring-jade" placeholder="18:30" />
+                </div>
+              </div>
+              <button class="w-full h-11 rounded-md bg-ink text-white hover:opacity-90 font-semibold" type="submit">
+                <i class="fa fa-line-chart mr-1" aria-hidden="true"></i>保存复盘
+              </button>
+            </form>
+          </div>
+          <div class="bg-white rounded-lg border border-line shadow-soft p-4 min-w-0 mobile-card">
+            <h2 class="font-bold text-lg mb-4">复盘结果</h2>
+            <div id="reviewSummary" class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4"></div>
+            <div id="reviewList" class="space-y-3"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-library" class="view hidden space-y-5">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5">
+          <div class="bg-white rounded-lg border border-line shadow-soft p-4 mobile-card">
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="font-bold text-lg">标题钩子库</h2>
+              <span class="text-xs px-2 py-1 rounded bg-slate-100 text-slate-600">可增删</span>
+            </div>
+            <form id="titleHookForm" class="grid grid-cols-1 sm:grid-cols-[120px_1fr_auto] gap-2 mb-4">
+              <input id="titleHookType" class="h-10 rounded-md border border-line px-3 focus:outline-none focus:ring-2 focus:ring-jade" placeholder="类型" />
+              <input id="titleHookText" class="h-10 rounded-md border border-line px-3 focus:outline-none focus:ring-2 focus:ring-jade" placeholder="新增标题，例如：真正的大佬最后登场" />
+              <button class="h-10 px-4 rounded-md bg-ink text-white font-semibold" type="submit">
+                <i class="fa fa-plus mr-1" aria-hidden="true"></i>新增
+              </button>
+            </form>
+            <div id="titleLibrary" class="space-y-2"></div>
+          </div>
+          <div class="bg-white rounded-lg border border-line shadow-soft p-4 mobile-card">
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="font-bold text-lg">封面与剪辑口径</h2>
+              <span class="text-xs px-2 py-1 rounded bg-slate-100 text-slate-600">可增删</span>
+            </div>
+            <form id="guidelineForm" class="space-y-2 mb-4">
+              <div class="grid grid-cols-1 sm:grid-cols-[120px_1fr] gap-2">
+                <input id="guidelineTitle" class="h-10 rounded-md border border-line px-3 focus:outline-none focus:ring-2 focus:ring-jade" placeholder="标题" />
+                <input id="guidelineIcon" class="h-10 rounded-md border border-line px-3 focus:outline-none focus:ring-2 focus:ring-jade" placeholder="图标：fa-picture-o / fa-scissors / fa-shield" />
+              </div>
+              <textarea id="guidelineItems" class="w-full min-h-20 rounded-md border border-line px-3 py-2 focus:outline-none focus:ring-2 focus:ring-jade" placeholder="每行一条口径，例如：前3秒必须给反差"></textarea>
+              <button class="h-10 px-4 rounded-md bg-ink text-white font-semibold" type="submit">
+                <i class="fa fa-plus mr-1" aria-hidden="true"></i>新增口径
+              </button>
+            </form>
+            <div id="guidelineLibrary" class="space-y-4"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <button id="mobileQuickAdd" class="sm:hidden fixed right-4 bottom-[86px] z-40 w-14 h-14 rounded-full bg-coral text-white shadow-soft flex items-center justify-center" aria-label="快速录入热点">
+    <i class="fa fa-plus text-lg" aria-hidden="true"></i>
+  </button>
+  <nav id="mobileBottomNav" class="sm:hidden fixed left-0 right-0 bottom-0 z-40 bg-white border-t border-line px-2 pt-2 pb-[calc(8px+env(safe-area-inset-bottom))]"></nav>
+  <div id="toast" class="fixed left-1/2 -translate-x-1/2 bottom-24 sm:bottom-5 z-50 hidden px-4 py-3 rounded-lg bg-ink text-white shadow-soft text-sm"></div>
+
+  <script>
+    const STORAGE_KEY = "qujiang_newmedia_warroom_v1";
+    const tabs = [
+      { id: "dashboard", label: "今日作战", icon: "fa-dashboard" },
+      { id: "topics", label: "选题池", icon: "fa-lightbulb-o" },
+      { id: "analyzer", label: "抓取分析", icon: "fa-search" },
+      { id: "command", label: "任务调度", icon: "fa-bullhorn" },
+      { id: "tasks", label: "拍摄任务", icon: "fa-video-camera" },
+      { id: "checklist", label: "剪辑检查", icon: "fa-check-square-o" },
+      { id: "review", label: "数据复盘", icon: "fa-line-chart" },
+      { id: "library", label: "素材口径", icon: "fa-book" }
+    ];
+    const APP_MODE = "team";
+    const TEAM_TABS = ["dashboard", "tasks", "checklist", "review", "library"];
+    const ADMIN_TABS = tabs.map(tab => tab.id);
+
+    function isTeamMode() {
+      return APP_MODE === "team";
+    }
+
+    function visibleTabs() {
+      const allowed = isTeamMode() ? TEAM_TABS : ADMIN_TABS;
+      return tabs.filter(tab => allowed.includes(tab.id));
+    }
+
+    const defaultTitleHooks = [
+      { id: "hook_default_1", type: "变装", title: "别人变装去蹦迪，我们变装去养老院上班" },
+      { id: "hook_default_2", type: "变装", title: "这不是工服，这是我的养老院战袍" },
+      { id: "hook_default_3", type: "变装", title: "养老之神的低吟，宣告我的归来" },
+      { id: "hook_default_4", type: "卡点", title: "养老院这群00后又开始了" },
+      { id: "hook_default_5", type: "卡点", title: "真正的大佬，永远最后登场" },
+      { id: "hook_default_6", type: "卡点", title: "领导让我们拍宣传片，结果拍成这样" },
+      { id: "hook_default_7", type: "跳舞", title: "我们只是想跳一下，没想到爷爷奶奶更会玩" },
+      { id: "hook_default_8", type: "跳舞", title: "在养老院上班后，我的精神状态变好了" },
+      { id: "hook_default_9", type: "热梗", title: "领导说这条再爆，就让我们继续拍" },
+      { id: "hook_default_10", type: "热梗", title: "00后闯养老院第一关：别被爷爷奶奶拿捏" },
+      { id: "hook_default_11", type: "Vlog", title: "我以为我是来照顾老人，结果被老人治愈了" },
+      { id: "hook_default_12", type: "群像", title: "我们负责整活，爷爷奶奶负责压轴" }
+    ];
+
+    const defaultGuidelines = [
+      {
+        id: "guide_default_cover",
+        title: "封面",
+        icon: "fa-picture-o",
+        color: "text-coral",
+        items: [
+          "半统一：栏目角标、短标题、品牌小尾巴统一。",
+          "画面优先选有人脸、有动作、有反差的一帧。",
+          "标题4-10字，白字黑描边，避开右侧按钮区。",
+          "不要每条都做成机构宣传海报。"
+        ]
+      },
+      {
+        id: "guide_default_edit",
+        title: "剪辑",
+        icon: "fa-scissors",
+        color: "text-jade",
+        items: [
+          "先选BGM，再拍动作和卡点。",
+          "前3秒必须给反差，不用“大家好”。",
+          "平均0.5-1.2秒一剪，字幕每屏不超过14个字。",
+          "最后一拍给老人压轴、围观或一句金句。"
+        ]
+      },
+      {
+        id: "guide_default_safe",
+        title: "安全",
+        icon: "fa-shield",
+        color: "text-sun",
+        items: [
+          "老人不做危险动作，不被当笑料。",
+          "出镜、近景、声音、老照片都要确认授权。",
+          "不拍病历、床号、身份证、联系方式。",
+          "不使用低俗热梗，不强迫老人配合。"
+        ]
+      }
+    ];
+
+    const checklistItems = [
+      "前3秒有反差钩子",
+      "BGM节拍点已对齐动作",
+      "字幕短句清楚且不挡脸",
+      "封面有栏目角标和短标题",
+      "结尾有评论互动问题",
+      "老人出镜和声音已授权",
+      "动作安全，无危险模仿",
+      "没有病历、床号、电话等隐私",
+      "没有低俗热梗和冒犯表达",
+      "标题含00后/养老院/反差记忆点"
+    ];
+
+    const relatedKeywords = ["养老", "养老院", "老年", "老人", "爷爷", "奶奶", "长者", "银发", "护理", "照护", "00后", "曲江", "西安", "探院", "院长"];
+    const generalHotKeywords = ["舞蹈", "跳舞", "伴舞", "演唱会", "BGM", "bgm", "音乐", "挑战", "卡点", "变装", "抽离", "热梗", "潮流", "比赛", "跟拍", "翻跳", "合拍", "转场", "节拍", "运镜", "神曲"];
+    const riskKeywords = ["危险", "暴力", "低俗", "擦边", "恶搞", "整蛊", "摔", "吓", "猛冲", "高难度"];
+    const contrastKeywords = ["结果", "没想到", "反差", "压轴", "大佬", "拿捏", "治愈", "最后", "竟然", "原来", "沉默"];
+
+    let state = loadState();
+    let activeTab = "dashboard";
+    let selectedTaskId = null;
+    let pendingCommandTaskId = null;
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return getEmptyState();
+        const parsed = JSON.parse(raw);
+        return {
+          topics: parsed.topics || [],
+          captures: parsed.captures || [],
+          commands: parsed.commands || [],
+          tasks: parsed.tasks || [],
+          reviews: parsed.reviews || [],
+          titleHooks: normalizeTitleHooks(parsed.titleHooks),
+          guidelineCards: normalizeGuidelines(parsed.guidelineCards)
+        };
+      } catch (error) {
+        return getEmptyState();
+      }
+    }
+
+    function cloneDefaults(value) {
+      return JSON.parse(JSON.stringify(value));
+    }
+
+    function getEmptyState() {
+      return {
+        topics: [],
+        captures: [],
+        commands: [],
+        tasks: [],
+        reviews: [],
+        titleHooks: cloneDefaults(defaultTitleHooks),
+        guidelineCards: cloneDefaults(defaultGuidelines)
+      };
+    }
+
+    function normalizeStoredId(value, prefix) {
+      const text = String(value || "");
+      return /^[A-Za-z0-9_-]+$/.test(text) ? text : uid(prefix);
+    }
+
+    function normalizeTitleHooks(value, useDefaultsWhenEmpty = true) {
+      if (!Array.isArray(value)) return cloneDefaults(defaultTitleHooks);
+      const normalized = value.map(item => {
+        if (Array.isArray(item)) {
+          return { id: uid("hook"), type: item[0] || "通用", title: item[1] || "" };
+        }
+        return {
+          id: normalizeStoredId(item.id, "hook"),
+          type: item.type || "通用",
+          title: item.title || item.text || ""
+        };
+      }).filter(item => item.title);
+      return normalized.length || !useDefaultsWhenEmpty ? normalized : cloneDefaults(defaultTitleHooks);
+    }
+
+    function normalizeIconName(icon) {
+      const text = String(icon || "").trim();
+      const match = text.match(/fa-[a-z0-9-]+/i);
+      return match ? match[0] : "fa-lightbulb-o";
+    }
+
+    function normalizeGuidelines(value, useDefaultsWhenEmpty = true) {
+      if (!Array.isArray(value)) return cloneDefaults(defaultGuidelines);
+      const normalized = value.map(item => {
+        const rawItems = Array.isArray(item.items) ? item.items : String(item.items || "").split(/\n+/);
+        return {
+          id: normalizeStoredId(item.id, "guide"),
+          title: item.title || "新口径",
+          icon: normalizeIconName(item.icon),
+          color: item.color || "text-jade",
+          items: rawItems.map(line => String(line).trim()).filter(Boolean)
+        };
+      }).filter(item => item.title && item.items.length);
+      return normalized.length || !useDefaultsWhenEmpty ? normalized : cloneDefaults(defaultGuidelines);
+    }
+
+    function ensureLibraryState() {
+      state.titleHooks = Array.isArray(state.titleHooks) ? normalizeTitleHooks(state.titleHooks, false) : cloneDefaults(defaultTitleHooks);
+      state.guidelineCards = Array.isArray(state.guidelineCards) ? normalizeGuidelines(state.guidelineCards, false) : cloneDefaults(defaultGuidelines);
+    }
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    function uid(prefix) {
+      return `${prefix}_${Date.now()}_${Math.random().toString(16).slice(2)}`;
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function escapeJsString(value) {
+      return String(value ?? "")
+        .replaceAll("\\", "\\\\")
+        .replaceAll("'", "\\'")
+        .replaceAll("\n", "\\n")
+        .replaceAll("\r", "");
+    }
+
+    function fmtNumber(value) {
+      const n = Number(value || 0);
+      if (n >= 10000) return `${(n / 10000).toFixed(n >= 100000 ? 0 : 1)}万`;
+      return n.toLocaleString("zh-CN");
+    }
+
+    function pct(part, total) {
+      const p = Number(part || 0);
+      const t = Number(total || 0);
+      if (!t) return "0.0%";
+      return `${((p / t) * 100).toFixed(1)}%`;
+    }
+
+    function getPriority(score) {
+      if (score >= 82) return "S";
+      if (score >= 62) return "A";
+      return "B";
+    }
+
+    function scoreTopic(checks, risk, type) {
+      const yesCount = Object.values(checks).filter(Boolean).length;
+      const typeBonus = ["变装", "卡点", "跳舞"].includes(type) ? 8 : 4;
+      const riskPenalty = risk === "高" ? 24 : risk === "中" ? 10 : 0;
+      return Math.max(0, Math.min(100, yesCount * 18 + typeBonus - riskPenalty));
+    }
+
+    function statusColor(status) {
+      return {
+        "待拍": "bg-coral",
+        "待剪": "bg-sun",
+        "待发": "bg-jade",
+        "已发": "bg-ink"
+      }[status] || "bg-slate-400";
+    }
+
+    function toast(message) {
+      const el = document.getElementById("toast");
+      el.textContent = message;
+      el.classList.remove("hidden");
+      window.clearTimeout(toast.timer);
+      toast.timer = window.setTimeout(() => el.classList.add("hidden"), 1800);
+    }
+
+    function renderTabs() {
+      const container = document.getElementById("tabs");
+      container.innerHTML = visibleTabs().map(tab => `
+        <button class="tab-btn h-10 px-4 rounded-md border text-sm ${activeTab === tab.id ? "tab-active" : "border-line bg-white hover:bg-slate-50"}" data-tab="${tab.id}">
+          <i class="fa ${tab.icon} mr-1" aria-hidden="true"></i>${tab.label}
+        </button>
+      `).join("");
+      container.querySelectorAll(".tab-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          activeTab = btn.dataset.tab;
+          render();
+        });
+      });
+    }
+
+    function renderMobileNav() {
+      const container = document.getElementById("mobileBottomNav");
+      const mobileTabs = visibleTabs().filter(tab => ["dashboard", "analyzer", "command", "tasks", "checklist", "review", "library"].includes(tab.id));
+      container.innerHTML = `
+        <div class="grid gap-1" style="grid-template-columns: repeat(${mobileTabs.length}, minmax(0, 1fr));">
+          ${mobileTabs.map(tab => `
+            <button class="mobile-tab-btn min-h-12 rounded-lg flex flex-col items-center justify-center gap-1 text-[11px] ${activeTab === tab.id ? "bottom-nav-active bg-slate-100" : "text-slate-500"}" data-tab="${tab.id}">
+              <i class="fa ${tab.icon} text-base" aria-hidden="true"></i>
+              <span>${tab.label.replace("今日作战", "作战").replace("抓取分析", "分析").replace("任务调度", "调度").replace("拍摄任务", "任务").replace("剪辑检查", "检查").replace("数据复盘", "复盘")}</span>
+            </button>
+          `).join("")}
+        </div>
+      `;
+      container.querySelectorAll(".mobile-tab-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          activeTab = btn.dataset.tab;
+          render();
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+      });
+    }
+
+    function showActiveView() {
+      if (!visibleTabs().some(tab => tab.id === activeTab)) activeTab = "dashboard";
+      document.querySelectorAll(".view").forEach(view => view.classList.add("hidden"));
+      document.getElementById(`view-${activeTab}`).classList.remove("hidden");
+    }
+
+    function applyModeLabels() {
+      const title = document.getElementById("appTitle");
+      const subtitle = document.getElementById("appSubtitle");
+      document.title = isTeamMode() ? "养老院有群00后｜协作工作台" : "养老院有群00后｜运营管理端";
+      if (title) title.textContent = isTeamMode() ? "养老院有群00后｜协作工作台" : "养老院有群00后｜运营管理端";
+      if (subtitle) subtitle.textContent = isTeamMode() ? "拍摄执行 · 剪辑检查 · 数据回传" : "热点发现 · 任务调度 · 数据复盘";
+      document.getElementById("seedBtn")?.classList.toggle("hidden", isTeamMode());
+      document.getElementById("importJsonLabel")?.classList.toggle("hidden", isTeamMode());
+    }
+
+    function renderDashboard() {
+      const view = document.getElementById("view-dashboard");
+      const counts = ["待拍", "待剪", "待发", "已发"].map(status => ({
+        status,
+        count: state.tasks.filter(task => task.status === status).length
+      }));
+      const bestTopic = [...state.topics].sort((a, b) => b.score - a.score)[0];
+      const totalPlays = state.reviews.reduce((sum, item) => sum + Number(item.plays || 0), 0);
+      const totalLikes = state.reviews.reduce((sum, item) => sum + Number(item.likes || 0), 0);
+      const totalFollows = state.reviews.reduce((sum, item) => sum + Number(item.follows || 0), 0);
+      const readyTasks = state.tasks.filter(task => task.status !== "已发").slice(0, 5);
+      const team = isTeamMode();
+      const flowSteps = team ? ["查看任务", "拍摄执行", "剪辑检查", "发布回传", "填数据"] : ["刷热点", "抓取分析", "选题入池", "生成任务", "剪辑检查", "填数据"];
+      const heroTitle = team ? "养老院00后协作工作台" : "养老院00后运营管理端";
+      const heroText = team ? "按任务执行、按清单检查、按数据回传，协作更顺手。" : "统一定选题、派任务、收数据，让拍剪复盘更顺手。";
+
+      view.innerHTML = `
+        <div class="grid grid-cols-1 xl:grid-cols-[1fr_420px] gap-4 sm:gap-5">
+          <div class="brand-panel rounded-lg border border-line shadow-soft p-4 sm:p-5 mobile-card overflow-hidden">
+            <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+              <div class="flex items-center gap-4 min-w-0">
+                <img src="assets/account-avatar.jpg" alt="养老院00后头像" class="w-20 h-20 rounded-2xl object-cover avatar-ring shrink-0" />
+                <div class="min-w-0">
+                  <div class="inline-flex items-center gap-2 px-2 py-1 rounded-full bg-white border border-line text-xs text-slate-600 mb-2">
+                    <span class="status-dot bg-coral"></span>${team ? "协作模式" : "管理模式"}
+                  </div>
+                  <h2 class="font-bold text-xl sm:text-2xl leading-tight">${heroTitle}</h2>
+                  <p class="text-sm text-slate-600 mt-1">${heroText}</p>
+                </div>
+              </div>
+              <div class="flex flex-wrap gap-2">
+                ${team ? `
+                  <button class="h-10 px-4 rounded-md bg-ink text-white text-sm font-semibold" onclick="setTab('tasks')">
+                    <i class="fa fa-video-camera mr-1" aria-hidden="true"></i>看任务
+                  </button>
+                  <button class="h-10 px-4 rounded-md bg-coral text-white text-sm font-semibold" onclick="setTab('review')">
+                    <i class="fa fa-line-chart mr-1" aria-hidden="true"></i>回传数据
+                  </button>
+                ` : `
+                  <button class="h-10 px-4 rounded-md bg-ink text-white text-sm font-semibold" onclick="setTab('analyzer')">
+                    <i class="fa fa-search mr-1" aria-hidden="true"></i>抓热点
+                  </button>
+                  <button class="h-10 px-4 rounded-md bg-coral text-white text-sm font-semibold" onclick="setTab('command')">
+                    <i class="fa fa-bullhorn mr-1" aria-hidden="true"></i>派任务
+                  </button>
+                `}
+                <button class="h-10 px-4 rounded-md border border-line bg-white text-sm font-semibold" onclick="copyDailyFlow()">
+                  <i class="fa fa-clipboard mr-1" aria-hidden="true"></i>复制到群
+                </button>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 gap-2 mt-4" style="grid-template-columns: repeat(${flowSteps.length}, minmax(0, 1fr));">
+              ${flowSteps.map((step, index) => `
+                <div class="border border-line rounded-lg p-3 bg-mist">
+                  <div class="w-7 h-7 rounded-full bg-ink text-white flex items-center justify-center text-sm font-bold">${index + 1}</div>
+                  <div class="font-bold mt-2">${step}</div>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+          <div class="bg-white rounded-lg border border-line shadow-soft p-4 mobile-card">
+            <h2 class="font-bold text-lg mb-3">手机/电脑使用</h2>
+            <div class="text-sm text-slate-700 leading-7">
+              <p><b>手机：</b>用浏览器打开后，可添加到主屏幕；底部导航负责日常操作。</p>
+              <p><b>电脑：</b>顶部导航适合开会复盘，支持导出 JSON/CSV。</p>
+              <p><b>群协作：</b>每天由1人维护主数据，晚间导出备份。</p>
+            </div>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+          ${counts.map(item => `
+            <div class="bg-white rounded-lg border border-line shadow-soft p-4">
+              <div class="flex items-center justify-between">
+                <span class="text-sm text-slate-500">${item.status}</span>
+                <span class="status-dot ${statusColor(item.status)}"></span>
+              </div>
+              <div class="text-3xl font-bold mt-2">${item.count}</div>
+            </div>
+          `).join("")}
+        </div>
+        <div class="grid grid-cols-1 xl:grid-cols-[1fr_420px] gap-5">
+          <div class="bg-white rounded-lg border border-line shadow-soft p-4">
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="font-bold text-lg">今日优先动作</h2>
+              <button class="h-9 px-3 rounded-md bg-ink text-white text-sm" onclick="setTab('${team ? "tasks" : "analyzer"}')">
+                <i class="fa ${team ? "fa-video-camera" : "fa-search"} mr-1" aria-hidden="true"></i>${team ? "查看任务" : "抓取分析"}
+              </button>
+            </div>
+            ${readyTasks.length ? `
+              <div class="space-y-3">
+                ${readyTasks.map(task => taskRow(task)).join("")}
+              </div>
+            ` : emptyState("先录入一个热点，再生成拍摄任务。")}
+          </div>
+          <div class="bg-white rounded-lg border border-line shadow-soft p-4">
+            <h2 class="font-bold text-lg mb-4">本周信号</h2>
+            <div class="space-y-3">
+              <div class="border border-line rounded-lg p-3">
+                <div class="text-sm text-slate-500">最高选题评分</div>
+                <div class="flex items-end justify-between mt-2">
+                  <div class="text-3xl font-bold">${bestTopic ? bestTopic.score : 0}</div>
+                  <div class="text-sm font-semibold text-coral">${bestTopic ? escapeHtml(bestTopic.title) : "暂无选题"}</div>
+                </div>
+              </div>
+              <div class="grid grid-cols-3 gap-2">
+                <div class="border border-line rounded-lg p-3">
+                  <div class="text-xs text-slate-500">总播放</div>
+                  <div class="font-bold text-lg">${fmtNumber(totalPlays)}</div>
+                </div>
+                <div class="border border-line rounded-lg p-3">
+                  <div class="text-xs text-slate-500">总点赞</div>
+                  <div class="font-bold text-lg">${fmtNumber(totalLikes)}</div>
+                </div>
+                <div class="border border-line rounded-lg p-3">
+                  <div class="text-xs text-slate-500">总涨粉</div>
+                  <div class="font-bold text-lg">${fmtNumber(totalFollows)}</div>
+                </div>
+              </div>
+              <div class="border border-line rounded-lg p-3">
+                <div class="text-sm font-bold mb-2">现阶段口径</div>
+                <p class="text-sm text-slate-700 leading-6">先冲播放、点赞、粉丝。内容主攻跳舞、卡点、变装、临时爆火视频二创，老人只做安全参与和压轴反差。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function taskRow(task) {
+      return `
+        <div class="border border-line rounded-lg p-3 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+          <div class="min-w-0">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="status-dot ${statusColor(task.status)}"></span>
+              <span class="text-xs text-slate-500">${escapeHtml(task.status)} · ${escapeHtml(task.type)}</span>
+            </div>
+            <div class="font-bold truncate">${escapeHtml(task.title)}</div>
+            <div class="text-sm text-slate-600 truncate">${escapeHtml(task.hook)}</div>
+          </div>
+          <div class="flex gap-2 shrink-0">
+            ${isTeamMode() ? "" : `<button class="h-8 px-3 rounded-md bg-coral text-white text-sm" onclick="openCommandForTask('${task.id}')">派发</button>`}
+            <button class="h-8 px-3 rounded-md border border-line text-sm" onclick="selectChecklist('${task.id}')">检查</button>
+            <button class="h-8 px-3 rounded-md border border-line text-sm" onclick="advanceTask('${task.id}')">推进</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function emptyState(text) {
+      return `
+        <div class="border border-dashed border-line rounded-lg p-8 text-center text-slate-500">
+          <i class="fa fa-inbox text-2xl mb-2" aria-hidden="true"></i>
+          <div>${escapeHtml(text)}</div>
+        </div>
+      `;
+    }
+
+    function renderTopics() {
+      const list = document.getElementById("topicList");
+      const type = document.getElementById("topicFilterType")?.value || "";
+      const priority = document.getElementById("topicFilterPriority")?.value || "";
+      const topics = state.topics
+        .filter(item => !type || item.type === type)
+        .filter(item => !priority || item.priority === priority)
+        .sort((a, b) => b.score - a.score);
+
+      list.innerHTML = topics.length ? topics.map(topic => `
+        <article class="border border-line rounded-lg p-3">
+          <div class="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+            <div class="min-w-0">
+              <div class="flex flex-wrap items-center gap-2 mb-2">
+                <span class="px-2 py-1 rounded bg-ink text-white text-xs">${escapeHtml(topic.priority)}</span>
+                <span class="px-2 py-1 rounded bg-slate-100 text-slate-700 text-xs">${escapeHtml(topic.type)}</span>
+                <span class="px-2 py-1 rounded bg-slate-100 text-slate-700 text-xs">评分 ${topic.score}</span>
+                <span class="px-2 py-1 rounded bg-slate-100 text-slate-700 text-xs">风险 ${escapeHtml(topic.risk)}</span>
+              </div>
+              <h3 class="font-bold text-base break-words">${escapeHtml(topic.title)}</h3>
+              <p class="text-sm text-slate-600 mt-1">场景：${escapeHtml(topic.scene)} · 老人：${escapeHtml(topic.elderlyMode)} · 负责人：${escapeHtml(topic.owner || "未定")}</p>
+              ${topic.source ? `<p class="text-sm text-slate-500 mt-1 break-words">来源：${escapeHtml(topic.source)}</p>` : ""}
+              ${topic.notes ? `<p class="text-sm text-slate-700 mt-2 bg-mist rounded-md p-2">${escapeHtml(topic.notes)}</p>` : ""}
+            </div>
+            <div class="flex flex-wrap gap-2 shrink-0">
+              <button class="h-8 px-3 rounded-md bg-jade text-white text-sm" onclick="createTaskFromTopic('${topic.id}')">
+                <i class="fa fa-video-camera mr-1" aria-hidden="true"></i>生成任务
+              </button>
+              <button class="h-8 px-3 rounded-md border border-line text-sm" onclick="deleteTopic('${topic.id}')">
+                <i class="fa fa-trash-o mr-1" aria-hidden="true"></i>删除
+              </button>
+            </div>
+          </div>
+        </article>
+      `).join("") : emptyState("选题池为空，先把今天刷到的热点录进来。");
+    }
+
+    function renderAnalyzer() {
+      const summary = document.getElementById("captureSummary");
+      const list = document.getElementById("captureList");
+      const captures = [...state.captures].sort((a, b) => b.score - a.score);
+      const sCount = captures.filter(item => item.priority === "S").length;
+      const avgScore = captures.length ? Math.round(captures.reduce((sum, item) => sum + item.score, 0) / captures.length) : 0;
+      const lowRisk = captures.filter(item => item.risk === "低").length;
+      const topType = getTopType(captures);
+      summary.innerHTML = [
+        ["结果", captures.length],
+        ["S级", sCount],
+        ["均分", avgScore],
+        ["低风险", lowRisk]
+      ].map(([label, value]) => `
+        <div class="border border-line rounded-lg p-3 bg-mist">
+          <div class="text-xs text-slate-500">${label}</div>
+          <div class="text-2xl font-bold mt-1">${value}</div>
+        </div>
+      `).join("") + `
+        <div class="sm:col-span-4 border border-line rounded-lg p-3">
+          <div class="text-sm text-slate-500">当前最热类型</div>
+          <div class="font-bold mt-1">${escapeHtml(topType || "暂无")}</div>
+        </div>
+      `;
+      list.innerHTML = captures.length ? captures.map(item => `
+        <article class="border border-line rounded-lg p-3">
+          <div class="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+            <div class="min-w-0">
+              <div class="flex flex-wrap items-center gap-2 mb-2">
+                <span class="px-2 py-1 rounded bg-ink text-white text-xs">${escapeHtml(item.priority)}</span>
+                <span class="px-2 py-1 rounded bg-slate-100 text-slate-700 text-xs">${escapeHtml(item.type)}</span>
+                <span class="px-2 py-1 rounded bg-slate-100 text-slate-700 text-xs">评分 ${item.score}</span>
+                <span class="px-2 py-1 rounded bg-slate-100 text-slate-700 text-xs">风险 ${escapeHtml(item.risk)}</span>
+                <span class="px-2 py-1 rounded bg-slate-100 text-slate-700 text-xs">热度 ${escapeHtml(item.heatLabel)}</span>
+              </div>
+              <h3 class="font-bold text-base break-words">${escapeHtml(item.suggestedTitle)}</h3>
+              <p class="text-sm text-slate-600 mt-1">识别来源：${escapeHtml(item.rawTitle)}</p>
+              <p class="text-sm text-slate-700 mt-2 bg-mist rounded-md p-2">${escapeHtml(item.reason)}</p>
+            </div>
+            <div class="flex flex-wrap gap-2 shrink-0">
+              <button class="h-8 px-3 rounded-md bg-jade text-white text-sm" onclick="addCaptureToTopic('${item.id}')">
+                <i class="fa fa-plus mr-1" aria-hidden="true"></i>入池
+              </button>
+              <button class="h-8 px-3 rounded-md border border-line text-sm" onclick="copyCaptureTitle('${item.id}')">
+                <i class="fa fa-copy mr-1" aria-hidden="true"></i>复制
+              </button>
+              <button class="h-8 px-3 rounded-md border border-line text-sm" onclick="deleteCapture('${item.id}')">
+                <i class="fa fa-trash-o mr-1" aria-hidden="true"></i>删除
+              </button>
+            </div>
+          </div>
+        </article>
+      `).join("") : emptyState("把抖音搜索结果、同行标题或评论粘贴到左侧，点击开始分析。");
+    }
+
+    function renderCommand() {
+      const select = document.getElementById("commandTask");
+      const tasks = state.tasks.length ? state.tasks : [];
+      select.innerHTML = tasks.length
+        ? tasks.map(task => `<option value="${task.id}">${escapeHtml(task.status)}｜${escapeHtml(task.title)}</option>`).join("")
+        : `<option value="">暂无任务，请先从选题池生成任务</option>`;
+      if (pendingCommandTaskId && state.tasks.some(task => task.id === pendingCommandTaskId)) {
+        select.value = pendingCommandTaskId;
+        pendingCommandTaskId = null;
+      }
+      const history = document.getElementById("commandHistory");
+      const items = [...(state.commands || [])].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 8);
+      history.innerHTML = items.length ? items.map(item => `
+        <article class="border border-line rounded-lg p-3 bg-mist">
+          <div class="flex items-center justify-between gap-2 mb-2">
+            <span class="text-xs px-2 py-1 rounded bg-ink text-white">${escapeHtml(item.type)}</span>
+            <span class="text-xs text-slate-500">${new Date(item.createdAt).toLocaleString("zh-CN", { hour12: false })}</span>
+          </div>
+          <div class="text-sm whitespace-pre-line leading-6">${escapeHtml(item.text)}</div>
+          <button class="mt-3 h-8 px-3 rounded-md border border-line bg-white text-sm" onclick="copySavedCommand('${item.id}')">
+            <i class="fa fa-copy mr-1" aria-hidden="true"></i>复制
+          </button>
+        </article>
+      `).join("") : emptyState("生成并保存群通知后，会在这里形成记录。");
+    }
+
+    function renderTasks() {
+      const board = document.getElementById("taskBoard");
+      const statuses = ["待拍", "待剪", "待发", "已发"];
+      board.innerHTML = statuses.map(status => {
+        const tasks = state.tasks.filter(task => task.status === status);
+        return `
+          <div class="border border-line rounded-lg bg-mist min-h-72">
+            <div class="p-3 border-b border-line flex items-center justify-between">
+              <div class="font-bold"><span class="status-dot ${statusColor(status)} mr-2"></span>${status}</div>
+              <span class="text-xs px-2 py-1 rounded bg-white border border-line">${tasks.length}</span>
+            </div>
+            <div class="p-3 space-y-3">
+              ${tasks.length ? tasks.map(taskCard).join("") : `<div class="text-sm text-slate-500 p-3">暂无任务</div>`}
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function taskCard(task) {
+      return `
+        <article class="bg-white border border-line rounded-lg p-3">
+          <div class="flex items-center justify-between gap-2 mb-2">
+            <span class="text-xs px-2 py-1 rounded bg-slate-100 text-slate-700">${escapeHtml(task.type)}</span>
+            <span class="text-xs text-slate-500">${escapeHtml(task.owner || "未定")}</span>
+          </div>
+          <h3 class="font-bold leading-snug">${escapeHtml(task.title)}</h3>
+          <p class="text-sm text-slate-600 mt-2">${escapeHtml(task.hook)}</p>
+          <div class="mt-3 text-xs text-slate-500 leading-5">
+            <div>场景：${escapeHtml(task.scene)}</div>
+            <div>封面：${escapeHtml(task.cover)}</div>
+          </div>
+          <div class="mt-3 flex flex-wrap gap-2">
+            ${isTeamMode() ? "" : `<button class="h-8 px-3 rounded-md bg-coral text-white text-sm" onclick="openCommandForTask('${task.id}')">派发</button>`}
+            <button class="h-8 px-3 rounded-md border border-line text-sm" onclick="advanceTask('${task.id}')">推进</button>
+            <button class="h-8 px-3 rounded-md border border-line text-sm" onclick="selectChecklist('${task.id}')">检查</button>
+            <button class="h-8 px-3 rounded-md border border-line text-sm" onclick="deleteTask('${task.id}')">删除</button>
+          </div>
+        </article>
+      `;
+    }
+
+    function renderChecklist() {
+      const list = document.getElementById("checkTaskList");
+      const tasks = state.tasks.filter(task => task.status !== "已发");
+      if (!selectedTaskId && tasks[0]) selectedTaskId = tasks[0].id;
+      const selected = state.tasks.find(task => task.id === selectedTaskId);
+      document.getElementById("selectedTaskBadge").textContent = selected ? selected.status : "未选择";
+      list.innerHTML = tasks.length ? tasks.map(task => `
+        <button class="w-full text-left border rounded-lg p-3 ${task.id === selectedTaskId ? "border-ink bg-slate-50" : "border-line bg-white"}" onclick="selectChecklist('${task.id}', false)">
+          <div class="font-bold text-sm">${escapeHtml(task.title)}</div>
+          <div class="text-xs text-slate-500 mt-1">${escapeHtml(task.status)} · ${escapeHtml(task.type)}</div>
+        </button>
+      `).join("") : emptyState("暂无待检查任务。");
+
+      const panel = document.getElementById("checklistPanel");
+      if (!selected) {
+        panel.innerHTML = emptyState("先在选题池生成一个拍摄任务。");
+        return;
+      }
+      selected.checks = selected.checks || {};
+      const done = checklistItems.filter(item => selected.checks[item]).length;
+      panel.innerHTML = `
+        <div class="mb-4 border border-line rounded-lg p-3 bg-mist">
+          <div class="font-bold">${escapeHtml(selected.title)}</div>
+          <div class="text-sm text-slate-600 mt-1">${escapeHtml(selected.hook)}</div>
+          <div class="mt-3 h-2 bg-white border border-line rounded-full overflow-hidden">
+            <div class="h-full bg-jade" style="width:${done / checklistItems.length * 100}%"></div>
+          </div>
+          <div class="text-xs text-slate-500 mt-1">已完成 ${done}/${checklistItems.length}</div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          ${checklistItems.map(item => `
+            <label class="flex items-start gap-3 border border-line rounded-lg p-3">
+              <input type="checkbox" class="check-item mt-1" data-item="${escapeHtml(item)}" ${selected.checks[item] ? "checked" : ""} />
+              <span class="text-sm">${escapeHtml(item)}</span>
+            </label>
+          `).join("")}
+        </div>
+      `;
+      panel.querySelectorAll(".check-item").forEach(input => {
+        input.addEventListener("change", () => {
+          const task = state.tasks.find(item => item.id === selectedTaskId);
+          task.checks = task.checks || {};
+          task.checks[input.dataset.item] = input.checked;
+          saveState();
+          renderChecklist();
+        });
+      });
+    }
+
+    function renderReview() {
+      const select = document.getElementById("reviewTask");
+      const publishedTasks = state.tasks.filter(task => task.status === "已发");
+      select.innerHTML = publishedTasks.length
+        ? publishedTasks.map(task => `<option value="${task.id}">${escapeHtml(task.title)}</option>`).join("")
+        : `<option value="">暂无已发任务</option>`;
+
+      const summary = document.getElementById("reviewSummary");
+      const totalPlays = state.reviews.reduce((sum, item) => sum + Number(item.plays || 0), 0);
+      const totalLikes = state.reviews.reduce((sum, item) => sum + Number(item.likes || 0), 0);
+      const totalComments = state.reviews.reduce((sum, item) => sum + Number(item.comments || 0), 0);
+      summary.innerHTML = [
+        ["累计播放", fmtNumber(totalPlays)],
+        ["平均点赞率", pct(totalLikes, totalPlays)],
+        ["平均评论率", pct(totalComments, totalPlays)]
+      ].map(([label, value]) => `
+        <div class="border border-line rounded-lg p-3">
+          <div class="text-xs text-slate-500">${label}</div>
+          <div class="text-2xl font-bold mt-1">${value}</div>
+        </div>
+      `).join("");
+
+      const list = document.getElementById("reviewList");
+      const sorted = [...state.reviews].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      list.innerHTML = sorted.length ? sorted.map(review => {
+        const task = state.tasks.find(item => item.id === review.taskId);
+        const likeRate = Number(review.likes || 0) / Math.max(1, Number(review.plays || 0));
+        const commentRate = Number(review.comments || 0) / Math.max(1, Number(review.plays || 0));
+        const followRate = Number(review.follows || 0) / Math.max(1, Number(review.plays || 0));
+        const verdict = getVerdict(likeRate, commentRate, followRate, review.plays);
+        const maxBar = Math.max(1, Number(review.plays || 0));
+        return `
+          <article class="border border-line rounded-lg p-3">
+            <div class="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+              <div class="min-w-0">
+                <div class="flex flex-wrap gap-2 mb-2">
+                  <span class="px-2 py-1 rounded ${verdict.color} text-xs">${verdict.label}</span>
+                  <span class="px-2 py-1 rounded bg-slate-100 text-slate-700 text-xs">${escapeHtml(review.publishTime || "未填时间")}</span>
+                </div>
+                <h3 class="font-bold">${escapeHtml(task?.title || "已删除任务")}</h3>
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-2 mt-3 text-sm">
+                  <div>播放 <b>${fmtNumber(review.plays)}</b></div>
+                  <div>点赞 <b>${fmtNumber(review.likes)}</b></div>
+                  <div>评论 <b>${fmtNumber(review.comments)}</b></div>
+                  <div>转发 <b>${fmtNumber(review.shares)}</b></div>
+                  <div>涨粉 <b>${fmtNumber(review.follows)}</b></div>
+                </div>
+                <div class="mt-3 space-y-2">
+                  ${metricBar("点赞率", review.likes, maxBar, "bg-coral")}
+                  ${metricBar("评论率", review.comments, maxBar, "bg-sun")}
+                  ${metricBar("涨粉率", review.follows, maxBar, "bg-jade")}
+                </div>
+              </div>
+              <button class="h-8 px-3 rounded-md border border-line text-sm shrink-0" onclick="deleteReview('${review.id}')">删除</button>
+            </div>
+          </article>
+        `;
+      }).join("") : emptyState("发布后录入播放、点赞、评论、涨粉，这里会自动给复盘结论。");
+    }
+
+    function metricBar(label, value, total, cls) {
+      const width = Math.min(100, Number(value || 0) / total * 100 * 8);
+      return `
+        <div>
+          <div class="flex justify-between text-xs text-slate-500 mb-1">
+            <span>${label}</span><span>${pct(value, total)}</span>
+          </div>
+          <div class="h-2 bg-slate-100 rounded-full overflow-hidden">
+            <div class="h-full ${cls}" style="width:${width}%"></div>
+          </div>
+        </div>
+      `;
+    }
+
+    function getVerdict(likeRate, commentRate, followRate, plays) {
+      if (likeRate >= 0.06 || followRate >= 0.0015) return { label: "值得复刻", color: "bg-jade text-white" };
+      if (plays >= 10000 && likeRate < 0.025) return { label: "改开头/封面", color: "bg-sun text-ink" };
+      if (commentRate >= 0.004) return { label: "加互动续集", color: "bg-coral text-white" };
+      return { label: "继续测试", color: "bg-slate-100 text-slate-700" };
+    }
+
+    function renderLibrary() {
+      ensureLibraryState();
+      const titleBox = document.getElementById("titleLibrary");
+      titleBox.innerHTML = state.titleHooks.length ? state.titleHooks.map(item => `
+        <article class="border border-line rounded-lg p-3 hover:bg-slate-50">
+          <div class="flex items-start gap-3">
+            <button class="flex-1 text-left min-w-0" onclick="copyTitleHook('${escapeJsString(item.id)}')" title="点击复制标题">
+              <span class="text-xs px-2 py-1 rounded bg-slate-100 text-slate-700 mr-2">${escapeHtml(item.type)}</span>
+              <span class="font-semibold break-words">${escapeHtml(item.title)}</span>
+            </button>
+            <button class="h-8 w-8 rounded-md border border-line bg-white hover:bg-coral hover:text-white shrink-0" onclick="deleteTitleHook('${escapeJsString(item.id)}')" title="删除">
+              <i class="fa fa-trash" aria-hidden="true"></i>
+            </button>
+          </div>
+        </article>
+      `).join("") : emptyState("还没有标题，先在上方新增一条。");
+
+      const guidelineBox = document.getElementById("guidelineLibrary");
+      guidelineBox.innerHTML = state.guidelineCards.length ? state.guidelineCards.map(card => `
+        <article class="border border-line rounded-lg p-4">
+          <div class="flex items-start justify-between gap-3 mb-3">
+            <h3 class="font-bold">
+              <i class="fa ${escapeHtml(normalizeIconName(card.icon))} ${escapeHtml(card.color || "text-jade")} mr-1" aria-hidden="true"></i>${escapeHtml(card.title)}
+            </h3>
+            <button class="h-8 w-8 rounded-md border border-line bg-white hover:bg-coral hover:text-white shrink-0" onclick="deleteGuidelineCard('${escapeJsString(card.id)}')" title="删除">
+              <i class="fa fa-trash" aria-hidden="true"></i>
+            </button>
+          </div>
+          <ul class="space-y-2 text-slate-600">
+            ${card.items.map(line => `<li class="flex gap-2"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-slate-400 shrink-0"></span><span>${escapeHtml(line)}</span></li>`).join("")}
+          </ul>
+        </article>
+      `).join("") : emptyState("还没有口径卡片，先在上方新增一组。");
+    }
+
+    function addTitleHook(type, title) {
+      ensureLibraryState();
+      state.titleHooks.unshift({
+        id: uid("hook"),
+        type: type || "通用",
+        title
+      });
+      saveState();
+      renderLibrary();
+      toast("标题已新增");
+    }
+
+    function deleteTitleHook(id) {
+      ensureLibraryState();
+      state.titleHooks = state.titleHooks.filter(item => item.id !== id);
+      saveState();
+      renderLibrary();
+      toast("标题已删除");
+    }
+
+    function copyTitleHook(id) {
+      ensureLibraryState();
+      const item = state.titleHooks.find(hook => hook.id === id);
+      if (!item) return;
+      copyText(item.title);
+    }
+
+    function addGuidelineCard(title, icon, items) {
+      ensureLibraryState();
+      state.guidelineCards.unshift({
+        id: uid("guide"),
+        title,
+        icon: normalizeIconName(icon),
+        color: "text-jade",
+        items
+      });
+      saveState();
+      renderLibrary();
+      toast("口径已新增");
+    }
+
+    function deleteGuidelineCard(id) {
+      ensureLibraryState();
+      state.guidelineCards = state.guidelineCards.filter(item => item.id !== id);
+      saveState();
+      renderLibrary();
+      toast("口径已删除");
+    }
+
+    function render() {
+      if (!visibleTabs().some(tab => tab.id === activeTab)) activeTab = "dashboard";
+      applyModeLabels();
+      renderTabs();
+      renderMobileNav();
+      showActiveView();
+      renderDashboard();
+      renderTopics();
+      renderAnalyzer();
+      renderCommand();
+      renderTasks();
+      renderChecklist();
+      renderReview();
+      renderLibrary();
+    }
+
+    function setTab(tabId) {
+      activeTab = tabId;
+      render();
+    }
+
+    function readTopicForm() {
+      const checks = {};
+      document.querySelectorAll(".score-check").forEach(input => {
+        checks[input.value] = input.checked;
+      });
+      const type = document.getElementById("topicType").value;
+      const risk = document.getElementById("riskLevel").value;
+      const score = scoreTopic(checks, risk, type);
+      return {
+        id: uid("topic"),
+        createdAt: new Date().toISOString(),
+        title: document.getElementById("topicTitle").value.trim(),
+        source: document.getElementById("topicSource").value.trim(),
+        type,
+        owner: document.getElementById("topicOwner").value.trim(),
+        scene: document.getElementById("topicScene").value,
+        elderlyMode: document.getElementById("elderlyMode").value,
+        checks,
+        risk,
+        score,
+        priority: getPriority(score),
+        notes: document.getElementById("topicNotes").value.trim()
+      };
+    }
+
+    function createTaskFromTopic(topicId) {
+      const topic = state.topics.find(item => item.id === topicId);
+      if (!topic) return;
+      const task = {
+        id: uid("task"),
+        topicId,
+        createdAt: new Date().toISOString(),
+        title: topic.title,
+        type: topic.type,
+        owner: topic.owner,
+        scene: topic.scene,
+        elderlyMode: topic.elderlyMode,
+        hook: buildHook(topic),
+        cover: buildCover(topic),
+        status: "待拍",
+        checks: {}
+      };
+      state.tasks.unshift(task);
+      saveState();
+      toast("已生成拍摄任务");
+      activeTab = "tasks";
+      render();
+    }
+
+    function buildHook(topic) {
+      if (topic.type === "变装") return "别人变装去蹦迪，我们变装去养老院上班。";
+      if (topic.type === "卡点") return "前面都是铺垫，真正的大佬最后登场。";
+      if (topic.type === "跳舞") return "我们只是想跳一下，没想到爷爷奶奶更会玩。";
+      if (topic.type === "热梗台词") return "领导让我拍养老院，结果拍成这样。";
+      if (topic.type === "反应视频") return "爷爷奶奶第一次看到我们拍这个，反应太真实了。";
+      return "我以为我是来照顾老人，结果被老人治愈了。";
+    }
+
+    function buildCover(topic) {
+      if (topic.elderlyMode.includes("压轴")) return "大佬登场";
+      if (topic.type === "变装") return "战袍上线";
+      if (topic.type === "跳舞") return "比我们会玩";
+      if (topic.type === "卡点") return "又开始了";
+      return "被拿捏了";
+    }
+
+    function getTopType(items) {
+      if (!items.length) return "";
+      const counts = items.reduce((acc, item) => {
+        acc[item.type] = (acc[item.type] || 0) + 1;
+        return acc;
+      }, {});
+      return Object.entries(counts).sort((a, b) => b[1] - a[1])[0]?.[0] || "";
+    }
+
+    function cleanCapturedLine(line) {
+      return line
+        .replace(/^-+\s*/g, "")
+        .replace(/^link\s+/i, "")
+        .replace(/^generic:\s*/i, "")
+        .replace(/^paragraph:\s*/i, "")
+        .replace(/^text:\s*/i, "")
+        .replace(/\\+"/g, "\"")
+        .replace(/^["'“”]+|["'“”]+$/g, "")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function isRelatedText(text) {
+      return relatedKeywords.some(keyword => text.includes(keyword));
+    }
+
+    function hasDouyinShare(text) {
+      return /douyin\.com|v\.douyin\.com|复制此链接|打开Dou音|打开抖音|抖音搜索|直接观看视频/i.test(text);
+    }
+
+    function isGeneralHotText(text) {
+      return generalHotKeywords.some(keyword => text.includes(keyword));
+    }
+
+    function detectType(text) {
+      if (/变装|换装|战袍|转场|斯皮尔伯格/.test(text)) return "变装";
+      if (/卡点|压轴|登场|节奏|最后出场|大佬/.test(text)) return "卡点";
+      if (/跳舞|舞蹈|舞动|伴舞|潮流舞蹈|演唱会|抽离|BGM|bgm|音乐/.test(text)) return "跳舞";
+      if (/反应|围观|第一次看|看我们|评论区/.test(text)) return "反应视频";
+      if (/领导|热梗|台词|精神状态|抽象|副本|离谱|拿捏/.test(text)) return "热梗台词";
+      return "Vlog快剪";
+    }
+
+    function detectRisk(text) {
+      if (riskKeywords.some(keyword => text.includes(keyword))) return "高";
+      if (/挑战|跳舞|舞蹈|追逐|奔跑/.test(text)) return "中";
+      return "低";
+    }
+
+    function detectHeat(text) {
+      const matches = [...text.matchAll(/(\d+(?:\.\d+)?)(万)?/g)].map(match => {
+        const value = Number(match[1]);
+        return match[2] ? value * 10000 : value;
+      }).filter(value => value >= 10);
+      const max = matches.length ? Math.max(...matches) : 0;
+      if (max >= 100000) return { value: max, label: "爆" };
+      if (max >= 10000) return { value: max, label: "高" };
+      if (max >= 1000) return { value: max, label: "中" };
+      return { value: max, label: "待测" };
+    }
+
+    function detectScene(text) {
+      if (/餐厅|吃饭|食堂|饭/.test(text)) return "餐厅";
+      if (/门口|进门|打卡/.test(text)) return "门口";
+      if (/办公室|领导|同事/.test(text)) return "办公室";
+      if (/走廊|查房/.test(text)) return "走廊";
+      if (/户外|院子|晒太阳|公园/.test(text)) return "院内户外";
+      return "活动室";
+    }
+
+    function detectElderlyMode(text) {
+      if (/爷爷|奶奶|老人|长者|爸妈|父母/.test(text)) {
+        if (/说|问|金句|一句话/.test(text)) return "一句金句";
+        if (/看|围观|鼓掌|反应/.test(text)) return "围观鼓掌";
+        return "压轴出场";
+      }
+      return "不出镜";
+    }
+
+    function suggestTitle(text, type, meta = {}) {
+      const compact = text
+        .replace(/https?:\/\/\S+/g, "")
+        .replace(/复制此链接.*$/g, "")
+        .replace(/#\S+/g, "")
+        .replace(/@\S+/g, "")
+        .replace(/\s+/g, " ")
+        .trim();
+      if (/00后|养老院|爷爷|奶奶|老人/.test(compact) && compact.length <= 36) return compact;
+      if (meta.generalHot && type === "跳舞") return "把这个舞蹈改成养老院00后版";
+      if (meta.generalHot && type === "变装") return "把这个变装改成养老院上班版";
+      if (meta.generalHot && type === "卡点") return "把这个卡点改成爷爷奶奶压轴版";
+      if (meta.generalHot) return "把这个热点改成养老院00后版";
+      if (type === "变装") return "别人变装去蹦迪，我们变装去养老院上班";
+      if (type === "卡点") return "真正的大佬，永远最后登场";
+      if (type === "跳舞") return "我们只是想跳一下，没想到爷爷奶奶更会玩";
+      if (type === "反应视频") return "爷爷奶奶看我们拍视频，反应太真实了";
+      if (type === "热梗台词") return "领导让我们拍宣传片，结果拍成这样";
+      return "我以为我是来照顾老人，结果被老人治愈了";
+    }
+
+    function buildCaptureReason(item) {
+      const pieces = [];
+      if (item.generalHot) pieces.push("泛热点可养老院化");
+      pieces.push(`${item.type}模板`);
+      pieces.push(item.heatLabel === "爆" ? "已有爆款信号" : item.heatLabel === "高" ? "热度较高" : "可测试");
+      pieces.push(item.risk === "低" ? "安全风险低" : `安全风险${item.risk}`);
+      pieces.push(item.elderlyMode === "不出镜" ? "适合先用00后出镜" : `老人可${item.elderlyMode}`);
+      return pieces.join("，") + "。";
+    }
+
+    function buildCaptureItem(text) {
+      const related = isRelatedText(text);
+      const share = hasDouyinShare(text);
+      const generalHot = !related && (share || isGeneralHotText(text));
+      const type = detectType(text);
+      const risk = detectRisk(text);
+      const heat = detectHeat(text);
+      const elderlyMode = detectElderlyMode(text);
+      const scene = detectScene(text);
+      const coreText = text
+        .replace(/https?:\/\/\S+/g, "")
+        .replace(/复制此链接.*$/g, "")
+        .replace(/\s+/g, " ")
+        .trim();
+      const checks = {
+        quick: coreText.length <= 70 || /3秒|一眼|第一/.test(text),
+        multi: ["变装", "卡点", "跳舞"].includes(type),
+        scene: related || generalHot || /上班|职场|日常|团队/.test(text),
+        safe: risk !== "高",
+        contrast: contrastKeywords.some(keyword => text.includes(keyword)) || ["变装", "卡点"].includes(type) || generalHot
+      };
+      const baseScore = scoreTopic(checks, risk, type);
+      const heatBonus = heat.label === "爆" ? 12 : heat.label === "高" ? 8 : heat.label === "中" ? 4 : 0;
+      const score = Math.max(0, Math.min(100, baseScore + heatBonus));
+      const item = {
+        id: uid("capture"),
+        createdAt: new Date().toISOString(),
+        rawTitle: text || "抖音视频链接（需手动补充标题）",
+        suggestedTitle: suggestTitle(text, type, { generalHot, share }),
+        type,
+        owner: "",
+        source: share ? "抖音分享粘贴" : "粘贴分析",
+        scene,
+        elderlyMode,
+        checks,
+        risk,
+        score,
+        priority: getPriority(score),
+        heat: heat.value,
+        heatLabel: heat.label,
+        generalHot,
+        reason: ""
+      };
+      item.reason = buildCaptureReason(item);
+      return item;
+    }
+
+    function parseCapturedText(raw, options = {}) {
+      const onlyRelated = options.onlyRelated !== false;
+      const dedupe = options.dedupe !== false;
+      const lines = raw
+        .split(/\n+/)
+        .map(cleanCapturedLine)
+        .filter(line => line && !/^\/url:/.test(line))
+        .filter(line => !/^https?:\/\//.test(line) || hasDouyinShare(line))
+        .filter(line => line.length >= 8 && line.length <= 280);
+      const seen = new Set();
+      const items = [];
+      for (const line of lines) {
+        const text = line.replace(/^合集\s*/g, "");
+        const keepAsGeneralHot = hasDouyinShare(text) || isGeneralHotText(text);
+        if (onlyRelated && !isRelatedText(text) && !keepAsGeneralHot) continue;
+        const key = text.replace(/https?:\/\/\S+/g, "").replace(/\d+(?:\.\d+)?万?/g, "").replace(/\s/g, "").slice(0, 40);
+        if (dedupe && seen.has(key)) continue;
+        seen.add(key);
+        items.push(buildCaptureItem(text));
+      }
+      if (!items.length && hasDouyinShare(raw)) {
+        const fallbackText = cleanCapturedLine(raw).slice(0, 280) || "抖音视频链接（需手动补充标题）";
+        items.push(buildCaptureItem(fallbackText));
+      }
+      return items;
+    }
+
+    function addCaptureToTopic(captureId, silent = false) {
+      const capture = state.captures.find(item => item.id === captureId);
+      if (!capture) return;
+      const topic = {
+        id: uid("topic"),
+        createdAt: new Date().toISOString(),
+        title: capture.suggestedTitle,
+        source: `${capture.source}：${capture.rawTitle}`,
+        type: capture.type,
+        owner: capture.owner || "",
+        scene: capture.scene,
+        elderlyMode: capture.elderlyMode,
+        checks: capture.checks,
+        risk: capture.risk,
+        score: capture.score,
+        priority: capture.priority,
+        notes: capture.reason
+      };
+      state.topics.unshift(topic);
+      saveState();
+      if (!silent) {
+        toast("已加入选题池");
+        activeTab = "topics";
+        render();
+      }
+    }
+
+    function addTopCapturesToTopics() {
+      const topItems = state.captures.filter(item => item.priority === "S" || item.score >= 78).slice(0, 8);
+      if (!topItems.length) return toast("暂无高分结果");
+      topItems.forEach(item => addCaptureToTopic(item.id, true));
+      saveState();
+      toast(`已加入 ${topItems.length} 条高分选题`);
+      activeTab = "topics";
+      render();
+    }
+
+    function deleteCapture(captureId) {
+      state.captures = state.captures.filter(item => item.id !== captureId);
+      saveState();
+      render();
+      toast("已删除分析结果");
+    }
+
+    function copyCaptureTitle(captureId) {
+      const capture = state.captures.find(item => item.id === captureId);
+      if (!capture) return;
+      copyText(capture.suggestedTitle);
+    }
+
+    function deleteTopic(topicId) {
+      state.topics = state.topics.filter(item => item.id !== topicId);
+      saveState();
+      render();
+      toast("已删除选题");
+    }
+
+    function deleteTask(taskId) {
+      state.tasks = state.tasks.filter(item => item.id !== taskId);
+      state.reviews = state.reviews.filter(item => item.taskId !== taskId);
+      if (selectedTaskId === taskId) selectedTaskId = null;
+      saveState();
+      render();
+      toast("已删除任务");
+    }
+
+    function deleteReview(reviewId) {
+      state.reviews = state.reviews.filter(item => item.id !== reviewId);
+      saveState();
+      render();
+      toast("已删除复盘");
+    }
+
+    function advanceTask(taskId) {
+      const order = ["待拍", "待剪", "待发", "已发"];
+      const task = state.tasks.find(item => item.id === taskId);
+      if (!task) return;
+      const index = order.indexOf(task.status);
+      task.status = order[Math.min(order.length - 1, index + 1)];
+      saveState();
+      render();
+      toast(`已推进到：${task.status}`);
+    }
+
+    function setTaskStatus(taskId, status) {
+      const task = state.tasks.find(item => item.id === taskId);
+      if (!task) return;
+      task.status = status;
+      saveState();
+      render();
+      toast(`已标记为：${status}`);
+    }
+
+    function selectChecklist(taskId, switchTab = true) {
+      selectedTaskId = taskId;
+      if (switchTab) activeTab = "checklist";
+      render();
+    }
+
+    function openCommandForTask(taskId) {
+      pendingCommandTaskId = taskId;
+      activeTab = "command";
+      render();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function seedData() {
+      const now = new Date().toISOString();
+      state.topics = [
+        {
+          id: uid("topic"),
+          createdAt: now,
+          title: "别人变装去蹦迪，我们变装去养老院上班",
+          source: "热点变装模板",
+          type: "变装",
+          owner: "拍摄组",
+          scene: "门口",
+          elderlyMode: "压轴出场",
+          checks: { quick: true, multi: true, scene: true, safe: true, contrast: true },
+          risk: "低",
+          score: 98,
+          priority: "S",
+          notes: "普通衣服转工服，最后老人挥手压轴。"
+        },
+        {
+          id: uid("topic"),
+          createdAt: now,
+          title: "真正的大佬，永远最后登场",
+          source: "卡点压轴结构",
+          type: "卡点",
+          owner: "剪辑组",
+          scene: "活动室",
+          elderlyMode: "围观鼓掌",
+          checks: { quick: true, multi: true, scene: true, safe: true, contrast: true },
+          risk: "低",
+          score: 98,
+          priority: "S",
+          notes: "00后逐个出场，最后爷爷奶奶团出现。"
+        }
+      ];
+      state.captures = [];
+      state.commands = [];
+      state.tasks = [];
+      state.reviews = [];
+      state.titleHooks = cloneDefaults(defaultTitleHooks);
+      state.guidelineCards = cloneDefaults(defaultGuidelines);
+      saveState();
+      render();
+      toast("示例已导入");
+    }
+
+    function exportJson() {
+      const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json;charset=utf-8" });
+      downloadBlob(blob, `养老院有群00后_作战台数据_${new Date().toISOString().slice(0, 10)}.json`);
+    }
+
+    function importJson(file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const data = JSON.parse(reader.result);
+          state = {
+            topics: Array.isArray(data.topics) ? data.topics : [],
+            captures: Array.isArray(data.captures) ? data.captures : [],
+          commands: Array.isArray(data.commands) ? data.commands : [],
+          tasks: Array.isArray(data.tasks) ? data.tasks : [],
+          reviews: Array.isArray(data.reviews) ? data.reviews : [],
+          titleHooks: normalizeTitleHooks(data.titleHooks),
+          guidelineCards: normalizeGuidelines(data.guidelineCards)
+        };
+          saveState();
+          render();
+          toast("数据已导入");
+        } catch (error) {
+          toast("导入失败，请检查JSON文件");
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function downloadBlob(blob, filename) {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function exportCsv(rows, filename) {
+      const csv = rows.map(row => row.map(value => {
+        const text = String(value ?? "");
+        return `"${text.replaceAll('"', '""')}"`;
+      }).join(",")).join("\n");
+      const blob = new Blob(["\ufeff" + csv], { type: "text/csv;charset=utf-8" });
+      downloadBlob(blob, filename);
+    }
+
+    function writeClipboard(text) {
+      if (navigator.clipboard && window.isSecureContext) {
+        return navigator.clipboard.writeText(text);
+      }
+      const textarea = document.createElement("textarea");
+      textarea.value = text;
+      textarea.setAttribute("readonly", "");
+      textarea.style.position = "fixed";
+      textarea.style.left = "-9999px";
+      document.body.appendChild(textarea);
+      textarea.select();
+      const ok = document.execCommand("copy");
+      textarea.remove();
+      return ok ? Promise.resolve() : Promise.reject(new Error("copy failed"));
+    }
+
+    function copyText(text) {
+      writeClipboard(text).then(() => toast("已复制")).catch(() => toast("复制失败"));
+    }
+
+    function copyDailyFlow() {
+      const pending = state.tasks.filter(task => task.status !== "已发").slice(0, 5);
+      const lines = [
+        "【养老院有群00后｜今日新媒体协作】",
+        "1. 上午刷热点：变装/卡点/跳舞/热梗，先看能不能养老院化。",
+        "2. 把同行标题/评论/搜索结果粘贴到作战台，跑抓取分析。",
+        "3. 中午定选题：3秒能看懂、多人能卡点、老人安全参与、有反差结尾。",
+        "4. 下午拍剪：先选BGM，按节拍拍，老人只做安全压轴/围观/金句。",
+        "5. 发布前检查：开头3秒、字幕、封面、授权、安全、评论引导。",
+        "6. 晚上复盘：播放、点赞、评论、涨粉，判断是否复刻。",
+        "",
+        pending.length ? "今日待推进：" : "今日待推进：暂无，请先录入热点。",
+        ...pending.map((task, index) => `${index + 1}. ${task.status}｜${task.title}｜负责人：${task.owner || "未定"}`)
+      ];
+      copyText(lines.join("\n"));
+    }
+
+    function getSelectedCommandTask() {
+      const taskId = document.getElementById("commandTask").value;
+      return state.tasks.find(task => task.id === taskId);
+    }
+
+    function buildCommandText() {
+      const task = getSelectedCommandTask();
+      const type = document.getElementById("commandType").value;
+      const deadline = document.getElementById("commandDeadline").value.trim() || "今天下班前";
+      const extra = document.getElementById("commandExtra").value.trim();
+      if (!task) return "";
+      const common = [
+        `【${type}｜养老院有群00后】`,
+        `任务：${task.title}`,
+        `负责人：${task.owner || "待定"}`,
+        `截止：${deadline}`,
+        `场景：${task.scene || "待定"}`,
+        `老人参与：${task.elderlyMode || "按现场安全判断"}`,
+        `3秒钩子：${task.hook}`,
+        `封面字：${task.cover}`
+      ];
+      const typeTips = {
+        "拍摄任务": [
+          "拍摄要求：先选BGM再拍；横竖统一用竖屏；多拍3组备选动作。",
+          "安全要求：老人只做围观、挥手、鼓掌或一句话，不做危险动作。",
+          "回传内容：原视频素材 + 选中的BGM + 现场问题。"
+        ],
+        "剪辑任务": [
+          "剪辑要求：前3秒必须有反差；平均0.5-1.2秒一剪；字幕短句大字。",
+          "节奏要求：卡点落在转身、推门、换装、老人压轴这些动作上。",
+          "回传内容：初剪视频 + 封面截图 + 标题备选3条。"
+        ],
+        "发布任务": [
+          "发布要求：标题先用反差句；话题带 #养老院有群00后 #养老院日常 #西安曲江老年公寓。",
+          "评论引导：下期想看谁/你以为养老院是什么样/要不要继续拍。",
+          "回传内容：发布时间 + 发布链接 + 首小时数据。"
+        ],
+        "数据回传": [
+          "复盘要求：回传播放、点赞、评论、转发、涨粉、最高赞评论。",
+          "判断口径：点赞率高就复刻；评论高就做续集；播放高点赞低就改开头/封面。",
+          "回传内容：数据截图 + 你认为能优化的一句话。"
+        ],
+        "热点追拍": [
+          "追拍要求：今天就拍，不等完美；先保留热点结构，再换成养老院场景。",
+          "核心反差：00后整活在前，爷爷奶奶压轴在后。",
+          "回传内容：10秒样片 + 是否能赶今晚发布。"
+        ]
+      };
+      const lines = [...common, ...(typeTips[type] || [])];
+      if (extra) lines.push(`补充：${extra}`);
+      return lines.join("\n");
+    }
+
+    function generateCommandText() {
+      const text = buildCommandText();
+      if (!text) return toast("请先选择一个任务");
+      document.getElementById("commandOutput").value = text;
+      toast("群通知已生成");
+    }
+
+    function saveCommandText() {
+      const text = document.getElementById("commandOutput").value.trim() || buildCommandText();
+      if (!text) return toast("暂无可保存的通知");
+      const type = document.getElementById("commandType").value;
+      state.commands = state.commands || [];
+      state.commands.unshift({
+        id: uid("command"),
+        createdAt: new Date().toISOString(),
+        type,
+        text
+      });
+      state.commands = state.commands.slice(0, 30);
+      saveState();
+      renderCommand();
+      toast("通知已保存");
+    }
+
+    function copySavedCommand(commandId) {
+      const item = (state.commands || []).find(command => command.id === commandId);
+      if (!item) return;
+      copyText(item.text);
+    }
+
+    document.getElementById("topicForm").addEventListener("submit", event => {
+      event.preventDefault();
+      const topic = readTopicForm();
+      if (!topic.title) return;
+      state.topics.unshift(topic);
+      saveState();
+      event.target.reset();
+      document.querySelectorAll(".score-check").forEach(input => input.checked = true);
+      render();
+      toast(`已加入选题池，优先级 ${topic.priority}`);
+    });
+
+    document.getElementById("titleHookForm").addEventListener("submit", event => {
+      event.preventDefault();
+      const type = document.getElementById("titleHookType").value.trim();
+      const title = document.getElementById("titleHookText").value.trim();
+      if (!title) return toast("请先填写标题");
+      addTitleHook(type, title);
+      event.target.reset();
+    });
+
+    document.getElementById("guidelineForm").addEventListener("submit", event => {
+      event.preventDefault();
+      const title = document.getElementById("guidelineTitle").value.trim();
+      const icon = document.getElementById("guidelineIcon").value.trim();
+      const items = document.getElementById("guidelineItems").value
+        .split(/\n+/)
+        .map(line => line.trim())
+        .filter(Boolean);
+      if (!title) return toast("请先填写口径标题");
+      if (!items.length) return toast("请至少填写一条口径");
+      addGuidelineCard(title, icon, items);
+      event.target.reset();
+    });
+
+    document.getElementById("topicFilterType").addEventListener("change", renderTopics);
+    document.getElementById("topicFilterPriority").addEventListener("change", renderTopics);
+    document.getElementById("commandForm").addEventListener("submit", event => {
+      event.preventDefault();
+      generateCommandText();
+    });
+    document.getElementById("saveCommandBtn").addEventListener("click", saveCommandText);
+    document.getElementById("copyCommandBtn").addEventListener("click", () => {
+      const text = document.getElementById("commandOutput").value.trim();
+      if (!text) return toast("请先生成群通知");
+      copyText(text);
+    });
+    document.getElementById("clearCommandBtn").addEventListener("click", () => {
+      document.getElementById("commandOutput").value = "";
+      toast("通知区已清空");
+    });
+    document.getElementById("clearCommandHistoryBtn").addEventListener("click", () => {
+      state.commands = [];
+      saveState();
+      renderCommand();
+      toast("通知记录已清空");
+    });
+    document.getElementById("analyzeCaptureBtn").addEventListener("click", () => {
+      const raw = document.getElementById("captureInput").value;
+      if (!raw.trim()) return toast("请先粘贴内容");
+      const items = parseCapturedText(raw, {
+        onlyRelated: document.getElementById("onlyRelatedCheck").checked,
+        dedupe: document.getElementById("dedupeCheck").checked
+      });
+      if (!items.length) return toast("未识别到内容，可取消筛选后再试");
+      state.captures = [...items, ...state.captures].slice(0, 200);
+      saveState();
+      renderAnalyzer();
+      toast(`已分析 ${items.length} 条`);
+    });
+    document.getElementById("clearCaptureInputBtn").addEventListener("click", () => {
+      document.getElementById("captureInput").value = "";
+      toast("输入已清空");
+    });
+    document.getElementById("clearCapturesBtn").addEventListener("click", () => {
+      state.captures = [];
+      saveState();
+      renderAnalyzer();
+      toast("分析结果已清空");
+    });
+    document.getElementById("addTopCapturesBtn").addEventListener("click", addTopCapturesToTopics);
+    document.getElementById("exportJsonBtn").addEventListener("click", exportJson);
+    document.getElementById("copyDailyFlowBtn").addEventListener("click", copyDailyFlow);
+    document.getElementById("importJsonInput").addEventListener("change", event => {
+      const file = event.target.files?.[0];
+      if (file) importJson(file);
+      event.target.value = "";
+    });
+    document.getElementById("seedBtn").addEventListener("click", seedData);
+    document.getElementById("exportTopicsCsvBtn").addEventListener("click", () => {
+      exportCsv([
+        ["标题", "类型", "优先级", "评分", "负责人", "场景", "老人参与", "风险", "来源", "备注"],
+        ...state.topics.map(item => [item.title, item.type, item.priority, item.score, item.owner, item.scene, item.elderlyMode, item.risk, item.source, item.notes])
+      ], "选题池.csv");
+    });
+    document.getElementById("exportCapturesCsvBtn").addEventListener("click", () => {
+      exportCsv([
+        ["建议标题", "原始内容", "类型", "优先级", "评分", "热度", "风险", "场景", "老人参与", "分析理由"],
+        ...state.captures.map(item => [item.suggestedTitle, item.rawTitle, item.type, item.priority, item.score, item.heatLabel, item.risk, item.scene, item.elderlyMode, item.reason])
+      ], "抓取分析结果.csv");
+    });
+    document.getElementById("exportReviewsCsvBtn").addEventListener("click", () => {
+      exportCsv([
+        ["标题", "发布时间", "播放", "点赞", "评论", "转发", "涨粉", "点赞率", "评论率", "涨粉率"],
+        ...state.reviews.map(item => {
+          const task = state.tasks.find(task => task.id === item.taskId);
+          return [task?.title || "已删除任务", item.publishTime, item.plays, item.likes, item.comments, item.shares, item.follows, pct(item.likes, item.plays), pct(item.comments, item.plays), pct(item.follows, item.plays)];
+        })
+      ], "数据复盘.csv");
+    });
+
+    document.getElementById("markReadyBtn").addEventListener("click", () => {
+      if (!selectedTaskId) return toast("请先选择任务");
+      setTaskStatus(selectedTaskId, "待发");
+    });
+
+    document.querySelectorAll(".statusQuick").forEach(button => {
+      button.addEventListener("click", () => toast(`可在任务卡片中推进到${button.dataset.status}`));
+    });
+
+    document.getElementById("mobileQuickAdd").addEventListener("click", () => {
+      activeTab = isTeamMode() ? "tasks" : "analyzer";
+      render();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    document.getElementById("reviewForm").addEventListener("submit", event => {
+      event.preventDefault();
+      const taskId = document.getElementById("reviewTask").value;
+      if (!taskId) return toast("暂无已发任务可复盘");
+      const existingIndex = state.reviews.findIndex(item => item.taskId === taskId);
+      const review = {
+        id: existingIndex >= 0 ? state.reviews[existingIndex].id : uid("review"),
+        taskId,
+        createdAt: new Date().toISOString(),
+        publishTime: document.getElementById("publishTime").value.trim(),
+        plays: Number(document.getElementById("playCount").value || 0),
+        likes: Number(document.getElementById("likeCount").value || 0),
+        comments: Number(document.getElementById("commentCount").value || 0),
+        shares: Number(document.getElementById("shareCount").value || 0),
+        follows: Number(document.getElementById("followCount").value || 0)
+      };
+      if (existingIndex >= 0) state.reviews[existingIndex] = review;
+      else state.reviews.unshift(review);
+      saveState();
+      event.target.reset();
+      render();
+      toast("复盘已保存");
+    });
+
+    window.setTab = setTab;
+    window.createTaskFromTopic = createTaskFromTopic;
+    window.addCaptureToTopic = addCaptureToTopic;
+    window.deleteCapture = deleteCapture;
+    window.copyCaptureTitle = copyCaptureTitle;
+    window.deleteTopic = deleteTopic;
+    window.deleteTask = deleteTask;
+    window.deleteReview = deleteReview;
+    window.advanceTask = advanceTask;
+    window.selectChecklist = selectChecklist;
+    window.openCommandForTask = openCommandForTask;
+    window.copyText = copyText;
+    window.copyDailyFlow = copyDailyFlow;
+    window.copySavedCommand = copySavedCommand;
+    window.copyTitleHook = copyTitleHook;
+    window.deleteTitleHook = deleteTitleHook;
+    window.deleteGuidelineCard = deleteGuidelineCard;
+
+    document.addEventListener("keydown", event => {
+      if (!(event.metaKey || event.ctrlKey)) return;
+      const index = Number(event.key) - 1;
+      if (index >= 0 && index < tabs.length) {
+        event.preventDefault();
+        activeTab = tabs[index].id;
+        render();
+      }
+      if (event.key.toLowerCase() === "e") {
+        event.preventDefault();
+        exportJson();
+      }
+    });
+
+    render();
+  </script>
+</body>
+</html>
