@@ -634,6 +634,10 @@
     let selectedTaskId = null;
     let pendingCommandTaskId = null;
     let taskStatusFilter = "全部";
+    let lastAlertSignature = "";
+    let lastAutoRefreshAt = new Date();
+    const AUTO_REFRESH_MS = 30000;
+    const ALERT_CHECK_MS = 60000;
 
     function loadState() {
       try {
@@ -718,6 +722,7 @@
 
     function saveState() {
       try {
+        state.updatedAt = new Date().toISOString();
         localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
       } catch (error) {
         toast("当前浏览器暂时无法保存本机数据");
@@ -788,6 +793,66 @@
       toast.timer = window.setTimeout(() => el.classList.add("hidden"), 1800);
     }
 
+    function hoursSince(value) {
+      const time = new Date(value || Date.now()).getTime();
+      if (!Number.isFinite(time)) return 0;
+      return Math.max(0, (Date.now() - time) / 36e5);
+    }
+
+    function timeAgo(value) {
+      const minutes = Math.floor(hoursSince(value) * 60);
+      if (minutes < 1) return "刚刚";
+      if (minutes < 60) return `${minutes}分钟前`;
+      const hours = Math.floor(minutes / 60);
+      if (hours < 24) return `${hours}小时前`;
+      return `${Math.floor(hours / 24)}天前`;
+    }
+
+    function getReminderAlerts() {
+      const alerts = [];
+      const thresholds = {
+        "待拍": { hours: 4, label: "待拍超过4小时" },
+        "待剪": { hours: 6, label: "待剪超过6小时" },
+        "待发": { hours: 2, label: "待发超过2小时" }
+      };
+      state.tasks.forEach(task => {
+        const age = hoursSince(task.createdAt);
+        const rule = thresholds[task.status];
+        if (rule && age >= rule.hours) {
+          alerts.push({
+            id: `${task.id}_${task.status}`,
+            level: task.status === "待发" ? "高" : "中",
+            title: rule.label,
+            message: `${task.status}｜${task.title}｜负责人：${task.owner || "未定"}｜${timeAgo(task.createdAt)}`,
+            taskId: task.id
+          });
+        }
+        if (task.status === "已发" && !state.reviews.some(review => review.taskId === task.id) && age >= 12) {
+          alerts.push({
+            id: `${task.id}_review`,
+            level: "高",
+            title: "已发未复盘",
+            message: `已发未复盘｜${task.title}｜负责人：${task.owner || "未定"}｜${timeAgo(task.createdAt)}`,
+            taskId: task.id
+          });
+        }
+      });
+      return alerts.slice(0, 8);
+    }
+
+    function reminderPermissionLabel() {
+      if (!("Notification" in window)) return "当前浏览器不支持系统提醒";
+      if (Notification.permission === "granted") return "系统提醒已开启";
+      if (Notification.permission === "denied") return "系统提醒被关闭";
+      return "开启系统提醒";
+    }
+
+    function alertBadge(level) {
+      if (level === "高") return "bg-coral text-white";
+      if (level === "中") return "bg-sun text-ink";
+      return "bg-slate-100 text-slate-700";
+    }
+
     function renderTabs() {
       const container = document.getElementById("tabs");
       container.innerHTML = visibleTabs().map(tab => `
@@ -853,6 +918,7 @@
       const totalFollows = state.reviews.reduce((sum, item) => sum + Number(item.follows || 0), 0);
       const readyTasks = state.tasks.filter(task => task.status !== "已发").slice(0, 5);
       const team = isTeamMode();
+      const alerts = getReminderAlerts();
       const flowSteps = team ? ["查看任务", "拍摄执行", "剪辑检查", "发布回传", "填数据"] : ["刷热点", "抓取分析", "选题入池", "生成任务", "剪辑检查", "填数据"];
       const heroTitle = team ? "养老院00后协作工作台" : "养老院00后运营管理端";
       const heroText = team ? "按任务执行、按清单检查、按数据回传，协作更顺手。" : "统一定选题、派任务、收数据，让拍剪复盘更顺手。";
@@ -920,6 +986,43 @@
               <div class="text-3xl font-bold mt-2">${item.count}</div>
             </div>
           `).join("")}
+        </div>
+        <div class="bg-white rounded-lg border border-line shadow-soft p-4 mobile-card">
+          <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between mb-4">
+            <div>
+              <h2 class="font-bold text-lg">自动检测与提醒</h2>
+              <p class="text-sm text-slate-500 mt-1">每30秒自动刷新本机状态，检测超时任务和未复盘内容。</p>
+            </div>
+            <div class="flex flex-wrap gap-2 mobile-stack-actions">
+              <button class="h-10 px-3 rounded-md bg-ink text-white text-sm font-semibold" onclick="requestReminderPermission()">
+                <i class="fa fa-bell-o mr-1" aria-hidden="true"></i>${reminderPermissionLabel()}
+              </button>
+              <button class="h-10 px-3 rounded-md border border-line bg-white text-sm font-semibold" onclick="copyReminderSummary()">
+                <i class="fa fa-copy mr-1" aria-hidden="true"></i>复制提醒
+              </button>
+              <button class="h-10 px-3 rounded-md border border-line bg-white text-sm font-semibold" onclick="manualRefresh()">
+                <i class="fa fa-refresh mr-1" aria-hidden="true"></i>立即刷新
+              </button>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 lg:grid-cols-[220px_1fr] gap-3">
+            <div class="border border-line rounded-lg p-3 bg-mist">
+              <div class="text-xs text-slate-500">刷新状态</div>
+              <div class="font-bold mt-1">${timeAgo(lastAutoRefreshAt)}刷新</div>
+              <div class="text-xs text-slate-500 mt-2">当前提醒 ${alerts.length} 条</div>
+            </div>
+            <div class="space-y-2">
+              ${alerts.length ? alerts.map(alert => `
+                <button class="w-full text-left border border-line rounded-lg p-3 bg-mist hover:bg-slate-50" onclick="focusTaskFromAlert('${escapeJsString(alert.taskId)}')">
+                  <div class="flex flex-wrap items-center gap-2">
+                    <span class="text-xs px-2 py-1 rounded ${alertBadge(alert.level)}">${escapeHtml(alert.level)}风险</span>
+                    <span class="font-bold">${escapeHtml(alert.title)}</span>
+                  </div>
+                  <div class="text-sm text-slate-600 mt-1">${escapeHtml(alert.message)}</div>
+                </button>
+              `).join("") : emptyState("当前没有超时任务。上线云端后，这里会同步显示全员任务提醒。")}
+            </div>
+          </div>
         </div>
         <div class="grid grid-cols-1 xl:grid-cols-[1fr_420px] gap-5">
           <div class="bg-white rounded-lg border border-line shadow-soft p-4">
@@ -1903,6 +2006,69 @@
       writeClipboard(text).then(() => toast("已复制")).catch(() => toast("复制失败"));
     }
 
+    function requestReminderPermission() {
+      if (!("Notification" in window)) return toast("当前浏览器不支持系统提醒");
+      if (Notification.permission === "granted") return toast("系统提醒已开启");
+      Notification.requestPermission().then(permission => {
+        toast(permission === "granted" ? "系统提醒已开启" : "未开启系统提醒");
+        renderDashboard();
+      });
+    }
+
+    function copyReminderSummary() {
+      const alerts = getReminderAlerts();
+      const lines = alerts.length ? [
+        "【养老院有群00后｜任务提醒】",
+        ...alerts.map((alert, index) => `${index + 1}. ${alert.message}`)
+      ] : ["【养老院有群00后｜任务提醒】", "当前没有超时任务。"];
+      copyText(lines.join("\n"));
+    }
+
+    function focusTaskFromAlert(taskId) {
+      const task = state.tasks.find(item => item.id === taskId);
+      if (task) {
+        selectedTaskId = task.id;
+        taskStatusFilter = task.status || "全部";
+      }
+      activeTab = "tasks";
+      render();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function manualRefresh() {
+      lastAutoRefreshAt = new Date();
+      render();
+      toast("已刷新");
+    }
+
+    function sendSystemReminder(alerts) {
+      if (!alerts.length || !("Notification" in window) || Notification.permission !== "granted") return;
+      const signature = alerts.map(alert => alert.id).join("|");
+      if (!signature || signature === lastAlertSignature) return;
+      lastAlertSignature = signature;
+      const body = alerts.slice(0, 3).map(alert => alert.message).join("\n");
+      new Notification("养老院有群00后｜任务提醒", {
+        body,
+        icon: "assets/account-avatar.jpg"
+      });
+    }
+
+    function runReminderCheck() {
+      const alerts = getReminderAlerts();
+      sendSystemReminder(alerts);
+    }
+
+    function shouldSkipAutoRender() {
+      const tag = document.activeElement?.tagName;
+      return ["INPUT", "TEXTAREA", "SELECT"].includes(tag);
+    }
+
+    function autoRefresh() {
+      lastAutoRefreshAt = new Date();
+      runReminderCheck();
+      if (!shouldSkipAutoRender()) render();
+    }
+
     function copyDailyFlow() {
       const pending = state.tasks.filter(task => task.status !== "已发").slice(0, 5);
       const lines = [
@@ -2179,6 +2345,19 @@
     window.copyTitleHook = copyTitleHook;
     window.deleteTitleHook = deleteTitleHook;
     window.deleteGuidelineCard = deleteGuidelineCard;
+    window.requestReminderPermission = requestReminderPermission;
+    window.copyReminderSummary = copyReminderSummary;
+    window.focusTaskFromAlert = focusTaskFromAlert;
+    window.manualRefresh = manualRefresh;
+
+    window.addEventListener("storage", event => {
+      if (event.key !== STORAGE_KEY) return;
+      state = loadState();
+      lastAutoRefreshAt = new Date();
+      render();
+      runReminderCheck();
+      toast("已同步本机最新数据");
+    });
 
     document.addEventListener("keydown", event => {
       if (!(event.metaKey || event.ctrlKey)) return;
@@ -2194,6 +2373,9 @@
       }
     });
 
+    setInterval(autoRefresh, AUTO_REFRESH_MS);
+    setInterval(runReminderCheck, ALERT_CHECK_MS);
+    runReminderCheck();
     render();
   </script>
 </body>
